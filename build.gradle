@@ -9,7 +9,6 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath("mysql:mysql-connector-java:5.1.39")
 	}
 }
 
@@ -49,7 +48,7 @@ dependencies {
 	provided('org.projectlombok:lombok:1.16.6')
 	
 	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('mysql:mysql-connector-java')
+	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
