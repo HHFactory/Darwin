@@ -13,12 +13,19 @@ import lombok.Data;
 @Data
 @Component
 public class RestaurantDto {
+	private Long restaurantId;
 	private String name;
+	private String postNum;
+	private String prefecture;
+	private String city;
 	private String address;
+	private String building;
 	private String lunchTime;
 	private String dinnerTime;
 	private String holiday;
-	private String otherInfo;
+	private String seatCounts;
+	private String smokingType;
+	private String hasWiFi;
 	private List<RestaurantImageDto> images;
 	private List<RestaurantCommentDto> comments;
 }

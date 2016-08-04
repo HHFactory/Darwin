@@ -1,5 +1,7 @@
 package com.hhfactory.controller;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +29,9 @@ public class RestaurantController {
 	@Autowired
 	private ResultDto resultDto;
 	@Autowired
-	private RestaurantDto restaurantDto;
+	private ModelMapper modelMapper;
+	@Autowired
+	private PropertyMap<RestaurantEntity, RestaurantDto> restaurantMap;
 	
 	/**
 	 * 指定されたIDからレストラン情報を取得する
@@ -35,10 +39,12 @@ public class RestaurantController {
 	 * @return result[ResultDto]:API処理結果
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
-	public ResultDto findRestaurant(@PathVariable Long id) {
+	public ResultDto findRestaurantById(@PathVariable Long id) {
 		RestaurantEntity resultEntity = restaurantServiceImpl.findRestaurantById(id);
 		if( resultEntity != null ) {
-			restaurantDto.setName(resultEntity.getName());
+			// dtoにつめかえる
+			modelMapper.addMappings(restaurantMap);
+			RestaurantDto restaurantDto = modelMapper.map(resultEntity, RestaurantDto.class);
 			resultDto.setResult(restaurantDto);
 		}
 		return resultDto;
@@ -46,7 +52,7 @@ public class RestaurantController {
 	
 	/**
 	 * レストラン情報を登録する
-	 * @param entity
+	 * @param entity[RestaurantDto]:登録するレストラン情報
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
