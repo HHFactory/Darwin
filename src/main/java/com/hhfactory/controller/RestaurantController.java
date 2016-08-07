@@ -31,7 +31,7 @@ public class RestaurantController {
 	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
-	private PropertyMap<RestaurantEntity, RestaurantDto> restaurantMap;
+	private PropertyMap<RestaurantEntity, RestaurantDto> restaurantEntityToDtoMap;
 	
 	/**
 	 * 指定されたIDからレストラン情報を取得する
@@ -40,10 +40,11 @@ public class RestaurantController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
 	public ResultDto findRestaurantById(@PathVariable Long id) {
+		// RestaurantEntityを取得
 		RestaurantEntity resultEntity = restaurantServiceImpl.findRestaurantById(id);
 		if( resultEntity != null ) {
-			// dtoにつめかえる
-			modelMapper.addMappings(restaurantMap);
+			// Entity -> DTOにつめかえる
+			modelMapper.addMappings(restaurantEntityToDtoMap);
 			RestaurantDto restaurantDto = modelMapper.map(resultEntity, RestaurantDto.class);
 			resultDto.setResult(restaurantDto);
 		}
@@ -58,11 +59,9 @@ public class RestaurantController {
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createRestaurant(@RequestBody RestaurantDto restaurantDto) {
-		// TODO:引数->restaurantEntityに変換
-//		RestaurantEntity resultEntity = restaurantServiceImpl.createRestaurant(entity);
-		System.out.println(restaurantDto.getName());
+		// Dto -> Entityにマッピング
+		RestaurantEntity insertTargetEntity = modelMapper.map(restaurantDto, RestaurantEntity.class);
+		restaurantServiceImpl.createRestaurant(insertTargetEntity);
 	}
-	
-	
 
 }
