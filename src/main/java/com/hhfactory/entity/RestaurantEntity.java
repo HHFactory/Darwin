@@ -9,8 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.data.geo.Point;
-
 import com.hhfactory.entity.common.AbstractEntityIdOnly;
 
 import lombok.Data;
@@ -54,9 +52,9 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	@Column(nullable = false, columnDefinition = "VARCHAR(50) DEFAULT '' ")
 	private String building;
 	
-	/** 座標 */
-	@Column(nullable = false, columnDefinition = "GEOMETRY")
-	private Point location;
+	/** 座標 TODO:後から実装する*/
+//	@Column(nullable = false, columnDefinition = "GEOMETRY")
+//	private Point location;
 	
 	/** ランチタイムfrom */	
 	@Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT '' ")
@@ -76,7 +74,7 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	
 	/** 席数 */
 	@Column(nullable = false, columnDefinition = "VARCHAR(5)")
-	private Integer seatCounts;
+	private String seatCounts;
 	
 	/** 休日コード */
 	@Column(nullable = false, columnDefinition = "VARCHAR(5)")
