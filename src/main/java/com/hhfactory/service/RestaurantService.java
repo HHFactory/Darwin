@@ -13,7 +13,7 @@ public interface RestaurantService {
 	// 指定したIDからレストラン情報を取得する
 	public RestaurantEntity findRestaurantById(Long id);
 	// レストラン情報を登録する
-	public RestaurantEntity createRestaurant(@RequestBody RestaurantEntity insertTarget);
+	public RestaurantEntity createRestaurant(RestaurantEntity insertTarget);
 	// レストラン情報を削除する
 	public void deleteRestaurant(Long id);
 	// レストラン情報を更新する
