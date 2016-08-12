@@ -2,6 +2,7 @@ package com.hhfactory.dto;
 
 import java.util.List;
 
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Component;
 
 import lombok.Data;
@@ -18,14 +19,17 @@ public class RestaurantDto {
 	private String postNum;
 	private String prefecture;
 	private String city;
-	private String address;
+	private String address;	
 	private String building;
-	private String lunchTime;
-	private String dinnerTime;
+	private String lunchTimeFrom;
+	private String lunchTimeTo;
+	private String dinnerTimeFrom;
+	private String dinnerTimeTo;
+	private Point latLng; //test用フィールド
 	private String holiday;
 	private String seatCounts;
 	private String smokingType;
-	private String hasWiFi;
+	private String hasWifiType;
 	private List<RestaurantImageDto> images;
 	private List<RestaurantCommentDto> comments;
 }
