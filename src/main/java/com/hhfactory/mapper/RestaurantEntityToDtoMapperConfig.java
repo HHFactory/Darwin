@@ -1,10 +1,12 @@
 package com.hhfactory.mapper;
 
+import java.nio.ByteBuffer;
+
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.PropertyMap;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.data.geo.Point;
+import org.springframework.stereotype.Component;
 
 import com.hhfactory.dto.RestaurantDto;
 import com.hhfactory.entity.RestaurantEntity;
@@ -13,44 +15,39 @@ import com.hhfactory.entity.RestaurantEntity;
  * RestaurantEntityからRestaurantDtoへのマッピング定義クラス
  *
  */
-@Configuration
+@Component
 public class RestaurantEntityToDtoMapperConfig {
 	
 	/*
 	 * RestaurantEntityからRestaurantDtoへのマッピング定義
 	 * (ModelMapperで自動マッピングできないものを定義)
-	 * 各controllerでautowiredして使う想定
+	 * 
 	 */
-	@Bean
-	PropertyMap<RestaurantEntity, RestaurantDto> restaurantEntityToDtoMap() {
+	public PropertyMap<RestaurantEntity, RestaurantDto> restaurantEntityToDtoMap() {
 		return new PropertyMap<RestaurantEntity, RestaurantDto>() {			
 			@Override
 			protected void configure() {
-				using(lunchTimeConverter).map(source).setLunchTime(null);
-				using(dinnerTimeConverter).map(source).setDinnerTime(null);
+				using(latLngConverter).map(source).setLatLng(null);
 				map().setHoliday(source.getHolidayCode());
 				map().setSmokingType(source.getSmokingTypeCode());
 			}
 		};
 	}
-	
+		
 	/**
-	 * RestaurantEntityのランチタイムを結合するConverter
+	 * RestaurantEntityの経度緯度をPointクラスに変換するconverter
 	 */
-	Converter<RestaurantEntity, String> lunchTimeConverter = new AbstractConverter<RestaurantEntity, String>() {
+	private Converter<RestaurantEntity, Point> latLngConverter =  new AbstractConverter<RestaurantEntity, Point>() {
 		@Override
-		protected String convert(RestaurantEntity source) {
-			return source == null? null : source.getLunchTimeFrom() + "~" + source.getLunchTimeTo();
+		protected Point convert(RestaurantEntity source) {
+			if( source != null ){
+				ByteBuffer buffer = ByteBuffer.allocate(8);
+				double lat = ByteConverter.getReversedData(buffer, source.getLatLng(), 9);
+				double lng = ByteConverter.getReversedData(buffer, source.getLatLng(), 17);
+				return new Point(lat, lng);
+			}
+			return null;
 		}
 	};
-	
-	/**
-	 * RestaurantEntityのディナータイムを結合するConverter
-	 */
-	Converter<RestaurantEntity, String> dinnerTimeConverter = new AbstractConverter<RestaurantEntity, String>() {
-		@Override
-		protected String convert(RestaurantEntity source) {
-			return source == null? null : source.getDinnerTimeFrom() + "~" + source.getDinnerTimeTo();
-		}
-	};
+		
 }

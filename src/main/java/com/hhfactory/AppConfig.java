@@ -1,15 +1,22 @@
 package com.hhfactory;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.google.code.geocoder.Geocoder;
 import com.google.code.geocoder.GeocoderRequestBuilder;
 import com.google.code.geocoder.model.GeocoderRequest;
+import com.hhfactory.mapper.RestaurantDtoToEntityMapperConfig;
+import com.hhfactory.mapper.RestaurantEntityToDtoMapperConfig;
 
 @Configuration
 public class AppConfig {
+	@Autowired
+	private RestaurantEntityToDtoMapperConfig restaurantMapperConfig;
+	@Autowired
+	private RestaurantDtoToEntityMapperConfig restaurantDtoToEntityMapperConfig;
 	
 	/**
 	 * EntityからDtoにマッピングするクラス
@@ -18,7 +25,10 @@ public class AppConfig {
 	 */
 	@Bean
 	ModelMapper modelMapper() {
-		return new ModelMapper();
+		ModelMapper mapper = new ModelMapper();
+		mapper.addMappings(restaurantMapperConfig.restaurantEntityToDtoMap());
+		mapper.addMappings(restaurantDtoToEntityMapperConfig.restaurantEntityToDtoMap());
+		return mapper;
 	}
 	
 	/**
