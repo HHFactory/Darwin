@@ -20,7 +20,7 @@ import com.hhfactory.service.implement.MenuServiceImpl;
  *
  */
 @RestController
-@RequestMapping(value = "/api/v1/Menus")
+@RequestMapping(value = "/api/v1/menus")
 public class MenuController {
 	@Autowired
 	private MenuServiceImpl menuServiceImpl;

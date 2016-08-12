@@ -52,7 +52,7 @@ public class MenuServiceImpl implements MenuService {
 	 * 
 	 */
 	@Transactional
-	public void updateMenu(Long id, MenuEntity updatealert) {
-		menuRepository.save(updatealert);
+	public void updateMenu(Long id, MenuEntity alterEntity) {
+		menuRepository.save(alterEntity);
 	}
 }
