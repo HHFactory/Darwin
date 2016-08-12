@@ -50,7 +50,7 @@ public class GeoCoderService {
 		GeocodeResponse response = geocoder.geocode(geocoderRequest);
 		GeocoderStatus status = response.getStatus();
 		if( !GeocoderStatus.OK.equals(status) ) {
-			return null;
+			throw new RuntimeException(status.value());
 		}
 		return response.getResults();
 	}
