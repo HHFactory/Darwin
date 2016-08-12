@@ -26,7 +26,7 @@ public class RestaurantCommentEntity extends AbstractEntity implements Serializa
 	private static final long serialVersionUID = 1L;
 	
 	/** コメント内容 */
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "VARCHAR(1000)")
 	private String comment;
 
 	/** コメント画像リスト */
