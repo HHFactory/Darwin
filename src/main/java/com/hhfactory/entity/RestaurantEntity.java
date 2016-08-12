@@ -52,9 +52,9 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	@Column(nullable = false, columnDefinition = "VARCHAR(50) DEFAULT '' ")
 	private String building;
 	
-	/** 座標 TODO:後から実装する*/
-//	@Column(nullable = false, columnDefinition = "GEOMETRY")
-//	private Point location;
+	/** 座標 */
+	@Column(nullable = false, columnDefinition = "GEOMETRY")
+	private byte[] latLng;
 	
 	/** ランチタイムfrom */	
 	@Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT '' ")

@@ -1,8 +1,10 @@
 package com.hhfactory.controller;
 
+import java.io.IOException;
+
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,11 +29,9 @@ public class RestaurantController {
 	@Autowired
 	private RestaurantServiceImpl restaurantServiceImpl;
 	@Autowired
-	private ResultDto resultDto;
-	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
-	private PropertyMap<RestaurantEntity, RestaurantDto> restaurantEntityToDtoMap;
+	private AutowireCapableBeanFactory beanFactory;
 	
 	/**
 	 * 指定されたIDからレストラン情報を取得する
@@ -42,9 +42,9 @@ public class RestaurantController {
 	public ResultDto findRestaurantById(@PathVariable Long id) {
 		// RestaurantEntityを取得
 		RestaurantEntity resultEntity = restaurantServiceImpl.findRestaurantById(id);
+		ResultDto resultDto = beanFactory.createBean(ResultDto.class);
 		if( resultEntity != null ) {
 			// Entity -> DTOにつめかえる
-			modelMapper.addMappings(restaurantEntityToDtoMap);
 			RestaurantDto restaurantDto = modelMapper.map(resultEntity, RestaurantDto.class);
 			resultDto.setResult(restaurantDto);
 		}
@@ -55,13 +55,15 @@ public class RestaurantController {
 	 * レストラン情報を登録する
 	 * @param entity[RestaurantDto]:登録するレストラン情報
 	 * @return
+	 * @throws IOException 
 	 */
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, value = "/")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createRestaurant(@RequestBody RestaurantDto restaurantDto) {
-		// Dto -> Entityにマッピング
+	public void createRestaurant(@RequestBody RestaurantDto restaurantDto) throws IOException {
+		// TODO: 登録済み店舗か判定する
+		// DTOからEntityにマッピングする
 		RestaurantEntity insertTargetEntity = modelMapper.map(restaurantDto, RestaurantEntity.class);
 		restaurantServiceImpl.createRestaurant(insertTargetEntity);
 	}
-
+	
 }
