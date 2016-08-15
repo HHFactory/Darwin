@@ -1,5 +1,7 @@
 package com.hhfactory.service.implement;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hhfactory.entity.RestaurantCommentEntity;
 import com.hhfactory.entity.RestaurantEntity;
 import com.hhfactory.repository.RestaurantRepository;
+import com.hhfactory.repository.custom.RestaurantCustomRepository;
 import com.hhfactory.service.RestaurantService;
 
 /**
@@ -18,6 +21,8 @@ import com.hhfactory.service.RestaurantService;
 public class RestaurantServiceImpl implements RestaurantService {
 	@Autowired
 	private RestaurantRepository restaurantRepository;
+	@Autowired
+	private RestaurantCustomRepository customRepository;
 	
 	/**
 	 * 指定されたIDからレストラン情報を取得する
@@ -68,6 +73,12 @@ public class RestaurantServiceImpl implements RestaurantService {
 		
 	}
 	
+	/**
+	 * 現在地から近くの店舗情報を取得する
+	 * @param currentLocation[LatLng]:現在地
+	 */
+	public List<RestaurantEntity> findNearbyRestaurants(double lat, double lng) {
+		return customRepository.findNearbyRestaurants(lat, lng);
+	}
 
-	
 }

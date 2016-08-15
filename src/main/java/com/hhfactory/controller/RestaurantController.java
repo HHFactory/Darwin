@@ -1,7 +1,10 @@
 package com.hhfactory.controller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -64,6 +68,26 @@ public class RestaurantController {
 		// DTOからEntityにマッピングする
 		RestaurantEntity insertTargetEntity = modelMapper.map(restaurantDto, RestaurantEntity.class);
 		restaurantServiceImpl.createRestaurant(insertTargetEntity);
+	}
+	
+	/**
+	 * 指定された緯度経度から1km以内の店舗情報を取得する
+	 * @param lat[double]：緯度
+	 * @param lng[double]：経度
+	 * @return 店舗情報リスト
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "")
+	public ResultDto findNearbyRestaurants(@RequestParam("lat") double lat, @RequestParam("lng") double lng) {
+		List<RestaurantEntity> nearbyRestaurants = restaurantServiceImpl.findNearbyRestaurants(lat, lng);
+		ResultDto resultDto = beanFactory.createBean(ResultDto.class);
+		if( CollectionUtils.isNotEmpty(nearbyRestaurants) ) {
+			// 取得したリストをDtoリストにマッピングする
+			List<RestaurantDto> restaurantDtos = nearbyRestaurants.stream()
+																.map( resultEntity -> modelMapper.map(resultEntity, RestaurantDto.class) )
+																.collect(Collectors.toList());
+			resultDto.setResult(restaurantDtos);
+		}
+		return resultDto;
 	}
 	
 }
