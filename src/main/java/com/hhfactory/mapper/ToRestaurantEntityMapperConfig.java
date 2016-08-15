@@ -18,7 +18,7 @@ import com.hhfactory.geocode.GeoCoderService;
  *
  */
 @Configuration
-public class RestaurantDtoToEntityMapperConfig {
+public class ToRestaurantEntityMapperConfig {
 	@Autowired
 	private GeoCoderService coderService;
 	
