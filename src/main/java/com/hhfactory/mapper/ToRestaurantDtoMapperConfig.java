@@ -16,7 +16,7 @@ import com.hhfactory.entity.RestaurantEntity;
  *
  */
 @Component
-public class RestaurantEntityToDtoMapperConfig {
+public class ToRestaurantDtoMapperConfig {
 	
 	/*
 	 * RestaurantEntityからRestaurantDtoへのマッピング定義
@@ -28,8 +28,8 @@ public class RestaurantEntityToDtoMapperConfig {
 			@Override
 			protected void configure() {
 				using(latLngConverter).map(source).setLatLng(null);
-				map().setHoliday(source.getHolidayCode());
-				map().setSmokingType(source.getSmokingTypeCode());
+				map().setHoliday(source.getHolidayCode());// TODO:コード定義を正しく
+				map().setSmokingType(source.getSmokingTypeCode());// TODO:コード定義を正しく
 			}
 		};
 	}
@@ -41,8 +41,11 @@ public class RestaurantEntityToDtoMapperConfig {
 		@Override
 		protected Point convert(RestaurantEntity source) {
 			if( source != null ){
+				// 経度・緯度情報を格納するために8バイト確保する
 				ByteBuffer buffer = ByteBuffer.allocate(8);
+				// 緯度をdouble型に変換する
 				double lat = ByteConverter.getReversedData(buffer, source.getLatLng(), 9);
+				// 経度をdouble型に変換する
 				double lng = ByteConverter.getReversedData(buffer, source.getLatLng(), 17);
 				return new Point(lat, lng);
 			}
