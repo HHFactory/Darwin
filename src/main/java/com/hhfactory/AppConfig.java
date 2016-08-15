@@ -8,15 +8,15 @@ import org.springframework.context.annotation.Configuration;
 import com.google.code.geocoder.Geocoder;
 import com.google.code.geocoder.GeocoderRequestBuilder;
 import com.google.code.geocoder.model.GeocoderRequest;
-import com.hhfactory.mapper.RestaurantDtoToEntityMapperConfig;
-import com.hhfactory.mapper.RestaurantEntityToDtoMapperConfig;
+import com.hhfactory.mapper.ToRestaurantEntityMapperConfig;
+import com.hhfactory.mapper.ToRestaurantDtoMapperConfig;
 
 @Configuration
 public class AppConfig {
 	@Autowired
-	private RestaurantEntityToDtoMapperConfig restaurantMapperConfig;
+	private ToRestaurantDtoMapperConfig restaurantMapperConfig;
 	@Autowired
-	private RestaurantDtoToEntityMapperConfig restaurantDtoToEntityMapperConfig;
+	private ToRestaurantEntityMapperConfig restaurantDtoToEntityMapperConfig;
 	
 	/**
 	 * EntityからDtoにマッピングするクラス
