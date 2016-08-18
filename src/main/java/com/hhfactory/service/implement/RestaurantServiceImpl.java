@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hhfactory.entity.RestaurantCommentEntity;
 import com.hhfactory.entity.RestaurantEntity;
+import com.hhfactory.repository.RestaurantCommentRepository;
 import com.hhfactory.repository.RestaurantRepository;
 import com.hhfactory.repository.custom.RestaurantCustomRepository;
 import com.hhfactory.service.RestaurantService;
@@ -23,21 +24,25 @@ public class RestaurantServiceImpl implements RestaurantService {
 	private RestaurantRepository restaurantRepository;
 	@Autowired
 	private RestaurantCustomRepository customRepository;
+	@Autowired
+	private RestaurantCommentRepository commentRepository;
 	
 	/**
 	 * 指定されたIDからレストラン情報を取得する
 	 * @param id:取得対象ID
 	 * @return 対象レストラン情報
+	 * 
 	 */
 	@Transactional(readOnly = true)
-	public RestaurantEntity findRestaurantById(Long id) {
-		return restaurantRepository.findOne(id);
+	public RestaurantEntity findRestaurantById(Long restaurantId) {
+		return restaurantRepository.findOne(restaurantId);
 	}
 
 	/**
 	 * レストラン情報を登録する
 	 * @param insertTarget:登録対象RestaurantEntity
 	 * @return 登録結果RestaurantEntity
+	 * 
 	 */
 	public RestaurantEntity createRestaurant(RestaurantEntity insertTarget) {
 		return restaurantRepository.save(insertTarget);
@@ -48,34 +53,31 @@ public class RestaurantServiceImpl implements RestaurantService {
 	 * @param id:削除対象データID
 	 * 
 	 */
-	public void deleteRestaurant(Long id) {
-		restaurantRepository.delete(id);
+	public void deleteRestaurant(Long restaurantId) {
+		restaurantRepository.delete(restaurantId);
 	}
 	
 	/**
-	 * レストラン情報を更新する
-	 * @param alterEntity:更新内容RestaurantEntity
-	 * 
-	 */
-	@Transactional
-	public RestaurantEntity updateRestaurant(Long id,RestaurantEntity alterEntity) {
-
-		return null;
-	}
-
-	/**
 	 * レストランへのコメント登録処理
-	 * @param restaurantId:コメント対象レストランID
-	 * @param comment:コメント内容RestaurantCommentEntity
+	 * @param restaurantId[Long]:コメント対象レストランID
+	 * @param comment[RestaurantCommentEntity]:コメント内容
 	 * 
 	 */
-	public void commentOnRestaurant(Long restaurantId,RestaurantCommentEntity comment) {
-		
+	public void commentOnRestaurant(Long restaurantId, RestaurantCommentEntity comment) {
+		// コメント対象レストランの取得
+		RestaurantEntity targetRestaurant = restaurantRepository.findOne(restaurantId);
+		if( targetRestaurant != null ) {
+			comment.setRestaurant(targetRestaurant);
+			commentRepository.save(comment);			
+		}
 	}
 	
 	/**
 	 * 現在地から近くの店舗情報を取得する
-	 * @param currentLocation[LatLng]:現在地
+	 * @param lat[double]:緯度
+	 * @param lng[double]:経度
+	 * @return 取得結果店舗情報リスト
+	 * 
 	 */
 	public List<RestaurantEntity> findNearbyRestaurants(double lat, double lng) {
 		return customRepository.findNearbyRestaurants(lat, lng);
