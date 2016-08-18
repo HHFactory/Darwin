@@ -11,18 +11,13 @@ import com.hhfactory.entity.RestaurantEntity;
  */
 public interface RestaurantService {	
 	// 指定したIDからレストラン情報を取得する
-	public RestaurantEntity findRestaurantById(Long id);
-	// レストラン情報を登録する
-	public RestaurantEntity createRestaurant(RestaurantEntity insertTarget);
-	// レストラン情報を削除する
-	public void deleteRestaurant(Long id);
-	// レストラン情報を更新する
-	public RestaurantEntity updateRestaurant(Long id, RestaurantEntity alterEntity);
-	// レストランにコメントを登録する
-	public void commentOnRestaurant(Long restaurantId, RestaurantCommentEntity comment);
+	public RestaurantEntity findRestaurantById(Long restaurantId);
 	// 近くのレストラン情報を取得する
 	public List<RestaurantEntity> findNearbyRestaurants(double lat, double lng);
-	// お気に入りのレストラン一覧を取得する
+	// レストラン情報を登録する
+	public RestaurantEntity createRestaurant(RestaurantEntity insertTargetEntity);
+	// レストラン情報を削除する
+	public void deleteRestaurant(Long restaurantId);
 	// レストランにコメントを登録する
-
+	public void commentOnRestaurant(Long restaurantId, RestaurantCommentEntity insertTargetEntity);
 }
