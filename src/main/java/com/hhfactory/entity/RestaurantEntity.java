@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -94,8 +95,7 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	private List<RestaurantImageEntity> images;
 	
 	/** コメントリスト */
-	@OneToMany
-	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
 	private List<RestaurantCommentEntity> comments;
 	
 	/** メニューリスト */
