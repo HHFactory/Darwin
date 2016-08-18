@@ -9,6 +9,7 @@ import com.google.code.geocoder.Geocoder;
 import com.google.code.geocoder.GeocoderRequestBuilder;
 import com.google.code.geocoder.model.GeocoderRequest;
 import com.hhfactory.mapper.ToRestaurantEntityMapperConfig;
+import com.hhfactory.mapper.ToRestaurantCommentEntityMapperConfig;
 import com.hhfactory.mapper.ToRestaurantDtoMapperConfig;
 
 @Configuration
@@ -17,23 +18,26 @@ public class AppConfig {
 	private ToRestaurantDtoMapperConfig restaurantMapperConfig;
 	@Autowired
 	private ToRestaurantEntityMapperConfig restaurantDtoToEntityMapperConfig;
+	@Autowired
+	private ToRestaurantCommentEntityMapperConfig toRestaurantCommentEntityMapperConfig;
 	
 	/**
 	 * EntityからDtoにマッピングするクラス
 	 * 各controllerでautowiredして使う想定
-	 * @return
+	 * 
 	 */
 	@Bean
 	ModelMapper modelMapper() {
 		ModelMapper mapper = new ModelMapper();
 		mapper.addMappings(restaurantMapperConfig.restaurantEntityToDtoMap());
 		mapper.addMappings(restaurantDtoToEntityMapperConfig.restaurantEntityToDtoMap());
+		mapper.addMappings(toRestaurantCommentEntityMapperConfig.toRestaurantCommentEntityMap());
 		return mapper;
 	}
 	
 	/**
 	 * GoogleGeocoderAPI用Geocoderクラス
-	 * @return
+	 * 
 	 */
 	@Bean
 	Geocoder geoCoder(){
@@ -43,7 +47,7 @@ public class AppConfig {
 	/**
 	 * GoogleGeocoderAPI用GeocoderRequestクラス
 	 * 言語を日本語に設定済み
-	 * @return
+	 * 
 	 */
 	@Bean
 	GeocoderRequest geocoderRequest() {

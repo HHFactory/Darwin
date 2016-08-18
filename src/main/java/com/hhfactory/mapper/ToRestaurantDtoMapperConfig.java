@@ -24,7 +24,7 @@ public class ToRestaurantDtoMapperConfig {
 	 * 
 	 */
 	public PropertyMap<RestaurantEntity, RestaurantDto> restaurantEntityToDtoMap() {
-		return new PropertyMap<RestaurantEntity, RestaurantDto>() {			
+		return new PropertyMap<RestaurantEntity, RestaurantDto>() {
 			@Override
 			protected void configure() {
 				using(latLngConverter).map(source).setLatLng(null);
