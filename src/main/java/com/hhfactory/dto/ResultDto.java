@@ -7,6 +7,7 @@ import lombok.Data;
 /**
  * API処理結果返却用DTO
  * 各restControllerでbeanFactoryを使用して生成する
+ * 
  */
 @Data
 public class ResultDto {

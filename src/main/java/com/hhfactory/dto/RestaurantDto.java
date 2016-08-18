@@ -3,7 +3,6 @@ package com.hhfactory.dto;
 import java.util.List;
 
 import org.springframework.data.geo.Point;
-import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
@@ -12,7 +11,6 @@ import lombok.Data;
  *
  */
 @Data
-@Component
 public class RestaurantDto {
 	private Long restaurantId;
 	private String name;
@@ -25,7 +23,7 @@ public class RestaurantDto {
 	private String lunchTimeTo;
 	private String dinnerTimeFrom;
 	private String dinnerTimeTo;
-	private Point latLng; //test用フィールド
+	private Point latLng;
 	private String holiday;
 	private String seatCounts;
 	private String smokingType;
