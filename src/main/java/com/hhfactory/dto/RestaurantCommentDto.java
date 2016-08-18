@@ -1,13 +1,16 @@
 package com.hhfactory.dto;
 
+import java.util.List;
+
 import lombok.Data;
 
 /**
- * レストランコメント返却用DTO
+ * レストランコメント用DTO
  *
  */
 @Data
 public class RestaurantCommentDto {
 	private String comment;
-	private String userName;
+	private List<String> imageUrls;
+	private long userId;
 }
