@@ -5,11 +5,10 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.springframework.data.geo.Point;
 
 import com.hhfactory.entity.common.AbstractEntityIdOnly;
 
@@ -56,7 +55,7 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	
 	/** 座標 */
 	@Column(nullable = false, columnDefinition = "GEOMETRY")
-	private Point location;
+	private byte[] latLng;
 	
 	/** ランチタイムfrom */	
 	@Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT '' ")
@@ -76,7 +75,7 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	
 	/** 席数 */
 	@Column(nullable = false, columnDefinition = "VARCHAR(5)")
-	private Integer seatCounts;
+	private String seatCounts;
 	
 	/** 休日コード */
 	@Column(nullable = false, columnDefinition = "VARCHAR(5)")
@@ -96,8 +95,7 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	private List<RestaurantImageEntity> images;
 	
 	/** コメントリスト */
-	@OneToMany
-	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
 	private List<RestaurantCommentEntity> comments;
 	
 	/** メニューリスト */

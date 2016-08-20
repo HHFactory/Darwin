@@ -1,0 +1,59 @@
+package com.hhfactory;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
+import com.google.code.geocoder.model.GeocoderRequest;
+import com.hhfactory.mapper.ToRestaurantEntityMapperConfig;
+import com.hhfactory.mapper.ToRestaurantCommentEntityMapperConfig;
+import com.hhfactory.mapper.ToRestaurantDtoMapperConfig;
+
+@Configuration
+public class AppConfig {
+	@Autowired
+	private ToRestaurantDtoMapperConfig restaurantMapperConfig;
+	@Autowired
+	private ToRestaurantEntityMapperConfig restaurantDtoToEntityMapperConfig;
+	@Autowired
+	private ToRestaurantCommentEntityMapperConfig toRestaurantCommentEntityMapperConfig;
+	
+	/**
+	 * EntityからDtoにマッピングするクラス
+	 * 各controllerでautowiredして使う想定
+	 * 
+	 */
+	@Bean
+	ModelMapper modelMapper() {
+		ModelMapper mapper = new ModelMapper();
+		mapper.addMappings(restaurantMapperConfig.restaurantEntityToDtoMap());
+		mapper.addMappings(restaurantDtoToEntityMapperConfig.restaurantEntityToDtoMap());
+		mapper.addMappings(toRestaurantCommentEntityMapperConfig.toRestaurantCommentEntityMap());
+		return mapper;
+	}
+	
+	/**
+	 * GoogleGeocoderAPI用Geocoderクラス
+	 * 
+	 */
+	@Bean
+	Geocoder geoCoder(){
+		return new Geocoder();
+	}
+	
+	/**
+	 * GoogleGeocoderAPI用GeocoderRequestクラス
+	 * 言語を日本語に設定済み
+	 * 
+	 */
+	@Bean
+	GeocoderRequest geocoderRequest() {
+		GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().getGeocoderRequest();
+		geocoderRequest.setLanguage("ja");
+		return geocoderRequest;
+	}
+	
+}

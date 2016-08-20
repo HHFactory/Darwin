@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -26,11 +28,16 @@ public class RestaurantCommentEntity extends AbstractEntity implements Serializa
 	private static final long serialVersionUID = 1L;
 	
 	/** コメント内容 */
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "VARCHAR(1000)")
 	private String comment;
 
 	/** コメント画像リスト */
 	@OneToMany
 	@JoinColumn(name = "restaurant_comment_id", referencedColumnName = "id")
 	private List<RestaurantImageEntity> images;	
+	
+	/** コメント対象レストランエンティティ */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "restaurantId", insertable = true, updatable = false, nullable = false)
+	private RestaurantEntity restaurant;
 }
