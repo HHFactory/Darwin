@@ -2,7 +2,7 @@ package com.hhfactory.dto;
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.springframework.data.geo.Point;
 
 import lombok.Data;
 
@@ -11,14 +11,23 @@ import lombok.Data;
  *
  */
 @Data
-@Component
 public class RestaurantDto {
+	private Long restaurantId;
 	private String name;
-	private String address;
-	private String lunchTime;
-	private String dinnerTime;
+	private String postNum;
+	private String prefecture;
+	private String city;
+	private String address;	
+	private String building;
+	private String lunchTimeFrom;
+	private String lunchTimeTo;
+	private String dinnerTimeFrom;
+	private String dinnerTimeTo;
+	private Point latLng;
 	private String holiday;
-	private String otherInfo;
+	private String seatCounts;
+	private String smokingType;
+	private String hasWifiType;
 	private List<RestaurantImageDto> images;
 	private List<RestaurantCommentDto> comments;
 }

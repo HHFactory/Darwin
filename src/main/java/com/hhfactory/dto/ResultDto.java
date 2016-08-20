@@ -1,17 +1,15 @@
 package com.hhfactory.dto;
 
-import org.springframework.stereotype.Component;
-
 import com.hhfactory.dto.common.message.ResultMessages;
 
 import lombok.Data;
 
 /**
  * API処理結果返却用DTO
- *
+ * 各restControllerでbeanFactoryを使用して生成する
+ * 
  */
 @Data
-@Component
 public class ResultDto {
 
 	/** 各API処理内容格納フィールド */
