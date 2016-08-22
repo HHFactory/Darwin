@@ -2,10 +2,14 @@ package com.hhfactory.service.implement;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hhfactory.entity.FoodCategory;
 import com.hhfactory.entity.RestaurantCommentEntity;
 import com.hhfactory.entity.RestaurantEntity;
 import com.hhfactory.repository.RestaurantCommentRepository;
@@ -26,6 +30,11 @@ public class RestaurantServiceImpl implements RestaurantService {
 	private RestaurantCustomRepository customRepository;
 	@Autowired
 	private RestaurantCommentRepository commentRepository;
+	
+	/** リポジトリ対象外Entityを取得するために、entityManagerを使用 */
+	@PersistenceContext 
+	protected EntityManager entityManager;
+
 	
 	/**
 	 * 指定されたIDからレストラン情報を取得する
@@ -81,6 +90,18 @@ public class RestaurantServiceImpl implements RestaurantService {
 	 */
 	public List<RestaurantEntity> findNearbyRestaurants(double lat, double lng) {
 		return customRepository.findNearbyRestaurants(lat, lng);
+	}
+
+	/**
+	 * 指定したカテゴリIDを持つRestaurantEntityリストを取得する
+	 * @param targetCategoryId[Long]：対象カテゴリID
+	 * @return 店舗情報リスト
+	 * 
+	 */
+	public List<RestaurantEntity> findRestaurantsByCategory(Long targetCategoryId) {
+		// 指定されたカテゴリIDからFoodCategoryを取得する
+		FoodCategory targetCategory = entityManager.find(FoodCategory.class,  targetCategoryId);
+		return restaurantRepository.findByFoodCategory(targetCategory);
 	}
 
 }
