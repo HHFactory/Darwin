@@ -36,6 +36,7 @@ public class ToRestaurantDtoMapperConfig {
 		
 	/**
 	 * RestaurantEntityの経度緯度をPointクラスに変換するconverter
+	 * 
 	 */
 	private Converter<RestaurantEntity, Point> latLngConverter =  new AbstractConverter<RestaurantEntity, Point>() {
 		@Override

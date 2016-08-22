@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.hhfactory.entity.common.AbstractEntityIdOnly;
@@ -28,6 +29,11 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	/** ステータス */
 	@Column(nullable = false, columnDefinition = "VARCHAR(5)")
 	private String status;
+	
+	/** カテゴリ */
+	@OneToOne
+	@JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false, insertable = true, updatable = false)
+	private FoodCategory foodCategory;;
 	
 	/** 店舗名 */
 	@Column(nullable = false, columnDefinition = "VARCHAR(20)")
@@ -99,12 +105,6 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	private List<RestaurantCommentEntity> comments;
 	
 	/** メニューリスト */
-	@OneToMany
-	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
 	private List<MenuEntity> menus;
-	
-	/** お気に入り */
-	@OneToMany
-	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-	private List<FavoriteRestaurantEntity> favorites;
 }
