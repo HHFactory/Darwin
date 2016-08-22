@@ -16,7 +16,7 @@ import com.hhfactory.entity.RestaurantEntity;
  */
 @Component
 public class RestaurantCustomRepository {
-	
+	/** ネイティブSQLを実行する必要があるため、entityManagerを生成 */
 	@PersistenceContext 
 	protected EntityManager entityManager;
 	

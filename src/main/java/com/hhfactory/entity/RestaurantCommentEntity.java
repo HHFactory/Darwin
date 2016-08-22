@@ -38,6 +38,6 @@ public class RestaurantCommentEntity extends AbstractEntity implements Serializa
 	
 	/** コメント対象レストランエンティティ */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "restaurantId", insertable = true, updatable = false, nullable = false)
+	@JoinColumn(name = "restaurant_id", insertable = true, updatable = false, nullable = false)
 	private RestaurantEntity restaurant;
 }
