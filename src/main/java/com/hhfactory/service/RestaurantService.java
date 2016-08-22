@@ -20,4 +20,6 @@ public interface RestaurantService {
 	public void deleteRestaurant(Long restaurantId);
 	// レストランにコメントを登録する
 	public void commentOnRestaurant(Long restaurantId, RestaurantCommentEntity insertTargetEntity);
+	// カテゴリからレストラン情報を取得する
+	public List<RestaurantEntity> findRestaurantsByCategory(Long targetCategoryId);
 }

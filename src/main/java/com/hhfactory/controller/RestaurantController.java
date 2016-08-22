@@ -45,7 +45,7 @@ public class RestaurantController {
 	 * @return result[ResultDto]:API処理結果
 	 * 
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
+	@RequestMapping(method = RequestMethod.GET, value = "/{restaurantId}")
 	public ResultDto findRestaurantById(@PathVariable Long restaurantId) {
 		// RestaurantEntityを取得
 		RestaurantEntity resultEntity = restaurantServiceImpl.findRestaurantById(restaurantId);
@@ -62,7 +62,7 @@ public class RestaurantController {
 	 * レストラン情報を登録する
 	 * 登録済み店舗の場合、登録処理は行わない
 	 * @param entity[RestaurantDto]:登録するレストラン情報
-	 * @return
+	 * @return HttpStatusを返す
 	 * @throws IOException 
 	 * 
 	 */
@@ -84,7 +84,7 @@ public class RestaurantController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "")
 	public ResultDto findNearbyRestaurants(@RequestParam("lat") double lat, @RequestParam("lng") double lng) {
-		// ネイティブSQLを実行する
+		// ネイティブSQLを実行しEntityリストを取得する
 		List<RestaurantEntity> nearbyRestaurants = restaurantServiceImpl.findNearbyRestaurants(lat, lng);
 		ResultDto resultDto = beanFactory.createBean(ResultDto.class);
 		if( CollectionUtils.isNotEmpty(nearbyRestaurants) ) {
@@ -98,12 +98,32 @@ public class RestaurantController {
 	}
 	
 	/**
+	 * 指定されたカテゴリIDを持つ店舗情報リストを取得する
+	 * @param categoryId[Long]：対象カテゴリID
+	 * @return 店舗情報リスト
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/categories/{categoryId}")
+	public ResultDto findRestaurantsByCategoryId(@PathVariable Long categoryId) {
+		// 対象のEntityリストを取得する
+		List<RestaurantEntity> resultEntities = restaurantServiceImpl.findRestaurantsByCategory(categoryId);
+		ResultDto resultDto = beanFactory.createBean(ResultDto.class);
+		// 実行結果が存在する場合、resultDtoに詰めて返す
+		if( CollectionUtils.isNotEmpty(resultEntities) ) {
+			List<RestaurantDto> resultDtos  = resultEntities.stream()
+																							.map( resultEntity -> modelMapper.map(resultEntity, RestaurantDto.class))
+																							.collect(Collectors.toList());
+			resultDto.setResult(resultDtos);
+		}
+		return resultDto;
+	}
+	
+	/**
 	 * 対象レストランへコメントを登録する
 	 * @param restaurantId[Long]:レストランID
 	 * @param comment[RestaurantCommentDto]:コメント内容
 	 * 
 	 */
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, value = "/{id}")
+	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, value = "/{restaurantId}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void commentOnRestaurant(@PathVariable Long restaurantId, @RequestBody RestaurantCommentDto commentDto) {
 		// DtoからEntityに変換する
