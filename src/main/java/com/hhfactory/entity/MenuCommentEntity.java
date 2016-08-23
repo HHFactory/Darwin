@@ -1,12 +1,11 @@
 package com.hhfactory.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.hhfactory.entity.common.AbstractEntity;
@@ -28,9 +27,9 @@ public class MenuCommentEntity extends AbstractEntity implements Serializable{
 	/** コメント内容 */
 	@Column(nullable = false)
 	private String comment;
-
-	/** コメント画像リスト */
-	@OneToMany
-	@JoinColumn(name = "menu_comment_id")
-	private List<MenuImageEntity> images;
+	
+	/** 対象メニュー*/
+	@ManyToOne
+	@JoinColumn(name = "menu_id", referencedColumnName = "id")
+	private MenuEntity menu;
 }
