@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -35,16 +37,15 @@ public class MenuEntity extends AbstractEntityIdOnly implements Serializable{
 		
 	/** メニュー画像リスト */
 	@OneToMany
-	@JoinColumn(name = "menu_id", referencedColumnName = "id")
+	@JoinColumn(name = "menu_image_id", referencedColumnName = "id")
 	private List<MenuImageEntity> images;
 	
 	/** メニューコメントリスト */
-	@OneToMany
-	@JoinColumn(name = "menu_id", referencedColumnName = "id")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
 	private List<MenuCommentEntity> comments;
-	
-	/** お気に入りメニューリスト */
-	@OneToMany
-	@JoinColumn(name = "menu_id", referencedColumnName = "id")
-	private List<FavoriteMenuEntity> favorites;
+		
+	/** 対象レストランエンティティ */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name  = "restaurant_id", referencedColumnName = "id", insertable = true, nullable = false, updatable = false)
+	private RestaurantEntity restaurant;
 }
