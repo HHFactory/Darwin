@@ -1,6 +1,7 @@
 package com.hhfactory.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,9 +26,9 @@ public class MenuController {
 	@Autowired
 	private MenuServiceImpl menuServiceImpl;
 	@Autowired
-	private ResultDto resultDto;
-	@Autowired
 	private MenuDto menuDto;
+	@Autowired
+	private AutowireCapableBeanFactory beanFactory;
 	
 	/**
 	 * 指定されたIDからメニュー情報を取得する
@@ -37,6 +38,7 @@ public class MenuController {
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
 	public ResultDto findMenu(@PathVariable Long id) {
 		MenuEntity resultEntity = menuServiceImpl.findMenuById(id);
+		ResultDto resultDto = beanFactory.createBean(ResultDto.class);
 		if (resultEntity != null) {
 			menuDto.setName(resultEntity.getName());
 			resultDto.setResult(menuDto);

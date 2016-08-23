@@ -29,5 +29,5 @@ public class RestaurantImageEntity extends AbstractEntityIdOnly implements Seria
 	/** 画像URL */
 	@Column(nullable = false)
 	private String imgUrl;
-		
+			
 }

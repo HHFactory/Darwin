@@ -33,7 +33,7 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	/** カテゴリ */
 	@OneToOne
 	@JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false, insertable = true, updatable = false)
-	private FoodCategory foodCategory;;
+	private FoodCategory foodCategory;
 	
 	/** 店舗名 */
 	@Column(nullable = false, columnDefinition = "VARCHAR(20)")
@@ -97,7 +97,7 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	
 	/** 画像リスト */
 	@OneToMany
-	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+	@JoinColumn(name = "image_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private List<RestaurantImageEntity> images;
 	
 	/** コメントリスト */
