@@ -1,5 +1,6 @@
 package com.hhfactory.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.http.HttpStatus;
@@ -26,36 +27,40 @@ public class MenuController {
 	@Autowired
 	private MenuServiceImpl menuServiceImpl;
 	@Autowired
-	private MenuDto menuDto;
-	@Autowired
 	private AutowireCapableBeanFactory beanFactory;
-	
+	@Autowired
+	private ModelMapper modelmapper;
+
 	/**
 	 * 指定されたIDからメニュー情報を取得する
-	 * @param id[Long]メニューID
+	 * 
+	 * @param menuId[Long]:メニューID
 	 * @return result[ResultDto]:API処理結果
+	 * 
 	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
-	public ResultDto findMenu(@PathVariable Long id) {
-		MenuEntity resultEntity = menuServiceImpl.findMenuById(id);
+	@RequestMapping(method = RequestMethod.GET,value = "/{menuId}")
+	public ResultDto findMenu(@PathVariable Long menuId) {
+		MenuEntity resultEntity = menuServiceImpl.findMenuById(menuId);
 		ResultDto resultDto = beanFactory.createBean(ResultDto.class);
-		if (resultEntity != null) {
-			menuDto.setName(resultEntity.getName());
+		if ( resultEntity != null ) {
+			MenuDto menuDto = modelmapper.map(resultEntity, MenuDto.class);
 			resultDto.setResult(menuDto);
 		}
 		return resultDto;
 	}
+
 	/**
 	 * メニュー情報を登録する
+	 * 
 	 * @param entity
 	 * @return
+	 * 
 	 */
-	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createMenu(@RequestBody MenuDto menuDto) {
-		// TODO:引数->menuEntityに変換
-//		MenuEntity menuEntity = menuServiceImpl.createMenu(entity);
-		System.out.println(menuDto.getName());
+		MenuEntity insertTargetEntity = modelmapper.map(menuDto, MenuEntity.class);
+		menuServiceImpl.createMenu(insertTargetEntity);
 	}
-	
+
 }

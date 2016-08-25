@@ -33,4 +33,5 @@ public class RestaurantDto {
 	private String hasWifiType;
 	private List<RestaurantImageDto> images;
 	private List<RestaurantCommentDto> comments;
+	private List<MenuDto> menus; 
 }

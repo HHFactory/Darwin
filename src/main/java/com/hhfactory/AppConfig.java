@@ -9,6 +9,8 @@ import com.google.code.geocoder.Geocoder;
 import com.google.code.geocoder.GeocoderRequestBuilder;
 import com.google.code.geocoder.model.GeocoderRequest;
 import com.hhfactory.mapper.ToRestaurantEntityMapperConfig;
+import com.hhfactory.mapper.ToMenuDtoMapperConfig;
+import com.hhfactory.mapper.ToMenuEntityMapperConfig;
 import com.hhfactory.mapper.ToRestaurantCommentEntityMapperConfig;
 import com.hhfactory.mapper.ToRestaurantDtoMapperConfig;
 
@@ -20,6 +22,10 @@ public class AppConfig {
 	private ToRestaurantEntityMapperConfig restaurantDtoToEntityMapperConfig;
 	@Autowired
 	private ToRestaurantCommentEntityMapperConfig toRestaurantCommentEntityMapperConfig;
+	@Autowired
+	private ToMenuDtoMapperConfig toMenuDtoMapperConfig;
+	@Autowired
+	private ToMenuEntityMapperConfig toMenuEntityMapperConfig;
 	
 	/**
 	 * EntityからDtoにマッピングするクラス
@@ -32,6 +38,8 @@ public class AppConfig {
 		mapper.addMappings(restaurantMapperConfig.restaurantEntityToDtoMap());
 		mapper.addMappings(restaurantDtoToEntityMapperConfig.restaurantEntityToDtoMap());
 		mapper.addMappings(toRestaurantCommentEntityMapperConfig.toRestaurantCommentEntityMap());
+		mapper.addMappings(toMenuDtoMapperConfig.menuEntityToDtoMap());
+		mapper.addMappings(toMenuEntityMapperConfig.toMenuEntityPropertyMap());
 		return mapper;
 	}
 	

@@ -30,6 +30,6 @@ public class MenuCommentEntity extends AbstractEntity implements Serializable{
 	
 	/** 対象メニュー*/
 	@ManyToOne
-	@JoinColumn(name = "menu_id", referencedColumnName = "id")
+	@JoinColumn(name = "menu_id", referencedColumnName = "id", nullable = false, insertable = true, updatable = false)
 	private MenuEntity menu;
 }

@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.hhfactory.entity.common.AbstractEntityIdOnly;
@@ -28,17 +29,16 @@ public class MenuEntity extends AbstractEntityIdOnly implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	/** メニュー名 */
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "VARCHAR(50)")
 	private String name;
 	
 	/** 価格 */
-	@Column(nullable = false)
+	@Column(nullable = false, columnDefinition = "int(5)")
 	private Integer price;
 		
 	/** メニュー画像リスト */
-	@OneToMany
-	@JoinColumn(name = "menu_image_id", referencedColumnName = "id")
-	private List<MenuImageEntity> images;
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "menu")
+	private MenuImageEntity image;
 	
 	/** メニューコメントリスト */
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")

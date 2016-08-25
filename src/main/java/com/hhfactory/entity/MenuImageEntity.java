@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.hhfactory.entity.common.AbstractEntityIdOnly;
@@ -25,4 +27,9 @@ public class MenuImageEntity extends AbstractEntityIdOnly implements Serializabl
 	/** 画像URL */
 	@Column(nullable = false)
 	private String imgUrl;
+	
+	/** 対象メニューエンティティ */
+	@ManyToOne
+	@JoinColumn(name = "menu_id", referencedColumnName = "id", nullable = false, insertable = true, updatable = false)
+	private MenuEntity menu;
 }
