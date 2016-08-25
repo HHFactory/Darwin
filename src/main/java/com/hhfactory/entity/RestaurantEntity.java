@@ -27,7 +27,7 @@ import lombok.EqualsAndHashCode;
 public class RestaurantEntity extends AbstractEntityIdOnly implements Serializable{
 	private static final long serialVersionUID = 1L;
 	/** ステータス */
-	@Column(nullable = false, columnDefinition = "VARCHAR(5)")
+	@Column(nullable = false, columnDefinition = "VARCHAR(5) DEFAULT 'open' ")
 	private String status;
 	
 	/** カテゴリ */
