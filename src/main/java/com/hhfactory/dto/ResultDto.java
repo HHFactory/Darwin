@@ -3,6 +3,7 @@ package com.hhfactory.dto;
 import com.hhfactory.dto.common.message.ResultMessages;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * API処理結果返却用DTO
@@ -10,6 +11,7 @@ import lombok.Data;
  * 
  */
 @Data
+@ToString
 public class ResultDto {
 
 	/** 各API処理内容格納フィールド */

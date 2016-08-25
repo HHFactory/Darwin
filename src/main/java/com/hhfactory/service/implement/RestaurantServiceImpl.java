@@ -30,14 +30,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 	private RestaurantCustomRepository customRepository;
 	@Autowired
 	private RestaurantCommentRepository commentRepository;
-	
+
 	/** リポジトリ対象外Entityを取得するために、entityManagerを使用 */
-	@PersistenceContext 
+	@PersistenceContext
 	protected EntityManager entityManager;
 
-	
 	/**
 	 * 指定されたIDからレストラン情報を取得する
+	 * 
 	 * @param id:取得対象ID
 	 * @return 対象レストラン情報
 	 * 
@@ -49,6 +49,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	/**
 	 * レストラン情報を登録する
+	 * 
 	 * @param insertTarget:登録対象RestaurantEntity
 	 * @return 登録結果RestaurantEntity
 	 * 
@@ -56,51 +57,55 @@ public class RestaurantServiceImpl implements RestaurantService {
 	public RestaurantEntity createRestaurant(RestaurantEntity insertTarget) {
 		return restaurantRepository.save(insertTarget);
 	}
-	
+
 	/**
 	 * レストラン情報を削除する
+	 * 
 	 * @param id:削除対象データID
 	 * 
 	 */
 	public void deleteRestaurant(Long restaurantId) {
 		restaurantRepository.delete(restaurantId);
 	}
-	
+
 	/**
 	 * レストランへのコメント登録処理
+	 * 
 	 * @param restaurantId[Long]:コメント対象レストランID
 	 * @param comment[RestaurantCommentEntity]:コメント内容
 	 * 
 	 */
-	public void commentOnRestaurant(Long restaurantId, RestaurantCommentEntity comment) {
+	public void commentOnRestaurant(Long restaurantId,RestaurantCommentEntity comment) {
 		// コメント対象レストランの取得
 		RestaurantEntity targetRestaurant = restaurantRepository.findOne(restaurantId);
-		if( targetRestaurant != null ) {
+		if ( targetRestaurant != null ) {
 			comment.setRestaurant(targetRestaurant);
-			commentRepository.save(comment);			
+			commentRepository.save(comment);
 		}
 	}
-	
+
 	/**
 	 * 現在地から近くの店舗情報を取得する
+	 * 
 	 * @param lat[double]:緯度
 	 * @param lng[double]:経度
 	 * @return 取得結果店舗情報リスト
 	 * 
 	 */
-	public List<RestaurantEntity> findNearbyRestaurants(double lat, double lng) {
+	public List<RestaurantEntity> findNearbyRestaurants(double lat,double lng) {
 		return customRepository.findNearbyRestaurants(lat, lng);
 	}
 
 	/**
 	 * 指定したカテゴリIDを持つRestaurantEntityリストを取得する
+	 * 
 	 * @param targetCategoryId[Long]：対象カテゴリID
 	 * @return 店舗情報リスト
 	 * 
 	 */
 	public List<RestaurantEntity> findRestaurantsByCategory(Long targetCategoryId) {
 		// 指定されたカテゴリIDからFoodCategoryを取得する
-		FoodCategory targetCategory = entityManager.find(FoodCategory.class,  targetCategoryId);
+		FoodCategory targetCategory = entityManager.find(FoodCategory.class, targetCategoryId);
 		return restaurantRepository.findByFoodCategory(targetCategory);
 	}
 

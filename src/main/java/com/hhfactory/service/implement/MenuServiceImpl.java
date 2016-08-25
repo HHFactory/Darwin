@@ -20,6 +20,7 @@ public class MenuServiceImpl implements MenuService {
 
 	/**
 	 * 指定されたIDからメニュー情報を取得する
+	 * 
 	 * @param id:取得対象ID
 	 * @return 対象メニュー情報
 	 */
@@ -30,29 +31,32 @@ public class MenuServiceImpl implements MenuService {
 
 	/**
 	 * メニュー情報を登録する
+	 * 
 	 * @param insertTarget:登録対象MenuEntity
 	 * @return 登録結果MenuEntity
 	 */
 	public MenuEntity createMenu(MenuEntity insertTarget) {
 		return menuRepository.save(insertTarget);
 	}
-	
+
 	/**
 	 * メニュー情報を削除する
+	 * 
 	 * @param id:削除対象データID
 	 * 
 	 */
 	public void deleteMenu(Long id) {
 		menuRepository.delete(id);
 	}
-	
+
 	/**
 	 * メニュー情報を更新する
+	 * 
 	 * @param alterEntity:更新内容MenuEntity
 	 * 
 	 */
 	@Transactional
-	public void updateMenu(Long id, MenuEntity alterEntity) {
+	public void updateMenu(Long id,MenuEntity alterEntity) {
 		menuRepository.save(alterEntity);
 	}
 }

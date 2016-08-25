@@ -15,19 +15,21 @@ import com.hhfactory.entity.common.AbstractEntityIdOnly;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * レストランEntity
  *
  */
 @Data
+@ToString(exclude = "menus")
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "restaurants")
 public class RestaurantEntity extends AbstractEntityIdOnly implements Serializable{
 	private static final long serialVersionUID = 1L;
 	/** ステータス */
-	@Column(nullable = false, columnDefinition = "VARCHAR(5)")
+	@Column(nullable = false, columnDefinition = "VARCHAR(5) DEFAULT 'open' ")
 	private String status;
 	
 	/** カテゴリ */

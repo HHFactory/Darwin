@@ -6,7 +6,6 @@ import com.hhfactory.entity.MenuEntity;
  * メニュー系処理定義インターフェース
  *
  */
-
 public interface MenuService {
 	//メニューを検索
 	public MenuEntity findMenuById(Long id);

@@ -12,12 +12,14 @@ import com.hhfactory.entity.common.AbstractEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * メニューコメントEntity
  *
  */
 @Data
+@ToString
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "menu_comments")
@@ -30,6 +32,6 @@ public class MenuCommentEntity extends AbstractEntity implements Serializable{
 	
 	/** 対象メニュー*/
 	@ManyToOne
-	@JoinColumn(name = "menu_id", referencedColumnName = "id")
+	@JoinColumn(name = "menu_id", referencedColumnName = "id", nullable = false, insertable = true, updatable = false)
 	private MenuEntity menu;
 }
