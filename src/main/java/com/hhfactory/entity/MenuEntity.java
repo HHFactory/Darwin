@@ -16,12 +16,14 @@ import com.hhfactory.entity.common.AbstractEntityIdOnly;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * メニューEntity
  *
  */
 @Data
+@ToString
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name ="menus")

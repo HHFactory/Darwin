@@ -7,12 +7,14 @@ import org.springframework.data.geo.Point;
 import com.hhfactory.entity.FoodCategory;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * レストランEntity返却用DTO
  *
  */
 @Data
+@ToString
 public class RestaurantDto {
 	private Long restaurantId;
 	private FoodCategory foodCategory;

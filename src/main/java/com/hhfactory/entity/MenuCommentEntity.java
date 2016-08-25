@@ -12,12 +12,14 @@ import com.hhfactory.entity.common.AbstractEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * メニューコメントEntity
  *
  */
 @Data
+@ToString
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "menu_comments")
