@@ -4,3 +4,4 @@
 .gradle/
 .settings/
 /log
+/src/main/resources/*.json
