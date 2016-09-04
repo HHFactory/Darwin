@@ -24,39 +24,42 @@ public class GeoCoderService {
 	private Geocoder geocoder;
 	@Autowired
 	private GeocoderRequest geocoderRequest;
-	
+
 	/**
 	 * 住所から経度緯度を取得する
+	 * 
 	 * @param address[String]:住所
 	 * @return 経度,緯度
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public LatLng getLatLngByAddress(String address) throws IOException {
 		List<GeocoderResult> geocoderResults = getGeocoderResults(address);
-		if( CollectionUtils.isEmpty(geocoderResults) ){
+		if ( CollectionUtils.isEmpty(geocoderResults) ) {
 			return null;
 		}
 		return getLatLng(geocoderResults);
 	}
-	
+
 	/**
 	 * 住所からGoogleGeocodeAPIのレスポンスを取得する
+	 * 
 	 * @param address:住所
 	 * @return geocoderResults:Geocode結果
 	 * @throws IOException
 	 */
 	private List<GeocoderResult> getGeocoderResults(String address) throws IOException {
-		geocoderRequest.setAddress(address);		
+		geocoderRequest.setAddress(address);
 		GeocodeResponse response = geocoder.geocode(geocoderRequest);
 		GeocoderStatus status = response.getStatus();
-		if( !GeocoderStatus.OK.equals(status) ) {
+		if ( !GeocoderStatus.OK.equals(status) ) {
 			throw new RuntimeException(status.value());
 		}
 		return response.getResults();
 	}
-	
+
 	/**
 	 * geocoderResultsから経度、緯度を取得する
+	 * 
 	 * @param geocoderResults:Geocodeレスポンス
 	 * @return location:経度、緯度
 	 */
@@ -64,5 +67,5 @@ public class GeoCoderService {
 		GeocoderResult result = geocoderResults.get(0);
 		return result.getGeometry().getLocation();
 	}
-	
+
 }

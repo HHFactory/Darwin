@@ -21,18 +21,18 @@ import com.hhfactory.geocode.GeoCoderService;
 public class ToRestaurantEntityMapperConfig {
 	@Autowired
 	private GeoCoderService coderService;
-	
+
 	/**
 	 * RestaurantDtoからRestaurantEntityへのマッピング定義
 	 * 
 	 * @return
 	 */
 	public PropertyMap<RestaurantDto, RestaurantEntity> restaurantEntityToDtoMap() {
-		return new PropertyMap<RestaurantDto, RestaurantEntity>() {			
+		return new PropertyMap<RestaurantDto, RestaurantEntity>() {
 			@Override
 			protected void configure() {
 				using(latLngConverter).map(source).setLatLng(null);
-				map().setHasWifiCode(source.getHasWifiType());// TODO:コード定義から取得する		
+				map().setHasWifiCode(source.getHasWifiType());// TODO:コード定義から取得する
 				map().setHolidayCode(source.getHoliday());// TODO:コード定義から取得する
 				map().setSmokingTypeCode(source.getSmokingType());// TODO:コード定義から取得する
 				map().setPrefectureCode(source.getPrefecture());// TODO:コード定義から取得する
@@ -40,7 +40,7 @@ public class ToRestaurantEntityMapperConfig {
 			}
 		};
 	}
-	
+
 	/**
 	 * 住所から取得した経度、緯度をbyte型配列に変換するconverter
 	 * TODO:適切なエラー処理にする
@@ -61,5 +61,5 @@ public class ToRestaurantEntityMapperConfig {
 			return null;
 		}
 	};
-		
+
 }

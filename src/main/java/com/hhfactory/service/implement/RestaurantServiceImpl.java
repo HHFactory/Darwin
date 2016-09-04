@@ -17,8 +17,11 @@ import com.hhfactory.repository.RestaurantRepository;
 import com.hhfactory.repository.custom.RestaurantCustomRepository;
 import com.hhfactory.service.RestaurantService;
 
+import lombok.NonNull;
+
 /**
  * レストラン系処理クラス
+ * publicメソッドの場合、引数のnullチェックを@nonnullで行う。
  *
  */
 @Service
@@ -31,30 +34,32 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Autowired
 	private RestaurantCommentRepository commentRepository;
 
-	/** リポジトリ対象外Entityを取得するために、entityManagerを使用 */
+	// リポジトリ対象外Entityを取得するために、entityManagerを使用
 	@PersistenceContext
 	protected EntityManager entityManager;
 
 	/**
 	 * 指定されたIDからレストラン情報を取得する
+	 * 対象のレストラン情報がなかった場合、EntityNotFoundExceptionを返す
 	 * 
-	 * @param id:取得対象ID
+	 * @param restaurantId:取得対象ID
 	 * @return 対象レストラン情報
-	 * 
+	 * @throws IllegalArgumentException（非チェック例外）
 	 */
 	@Transactional(readOnly = true)
-	public RestaurantEntity findRestaurantById(Long restaurantId) {
+	public RestaurantEntity findRestaurantById(@NonNull Long restaurantId) {
 		return restaurantRepository.findOne(restaurantId);
 	}
 
 	/**
 	 * レストラン情報を登録する
+	 * 対象のEntityが既に登録されていた場合は、更新される
 	 * 
 	 * @param insertTarget:登録対象RestaurantEntity
 	 * @return 登録結果RestaurantEntity
 	 * 
 	 */
-	public RestaurantEntity createRestaurant(RestaurantEntity insertTarget) {
+	public RestaurantEntity createRestaurant(@NonNull RestaurantEntity insertTarget) {
 		return restaurantRepository.save(insertTarget);
 	}
 
@@ -64,7 +69,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	 * @param id:削除対象データID
 	 * 
 	 */
-	public void deleteRestaurant(Long restaurantId) {
+	public void deleteRestaurant(@NonNull Long restaurantId) {
 		restaurantRepository.delete(restaurantId);
 	}
 
@@ -75,7 +80,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	 * @param comment[RestaurantCommentEntity]:コメント内容
 	 * 
 	 */
-	public void commentOnRestaurant(Long restaurantId,RestaurantCommentEntity comment) {
+	public void commentOnRestaurant(@NonNull Long restaurantId, @NonNull RestaurantCommentEntity comment) {
 		// コメント対象レストランの取得
 		RestaurantEntity targetRestaurant = restaurantRepository.findOne(restaurantId);
 		if ( targetRestaurant != null ) {
@@ -92,7 +97,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	 * @return 取得結果店舗情報リスト
 	 * 
 	 */
-	public List<RestaurantEntity> findNearbyRestaurants(double lat,double lng) {
+	public List<RestaurantEntity> findNearbyRestaurants( double lat, double lng) {
 		return customRepository.findNearbyRestaurants(lat, lng);
 	}
 
@@ -103,7 +108,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 	 * @return 店舗情報リスト
 	 * 
 	 */
-	public List<RestaurantEntity> findRestaurantsByCategory(Long targetCategoryId) {
+	public List<RestaurantEntity> findRestaurantsByCategory(@NonNull Long targetCategoryId) {
 		// 指定されたカテゴリIDからFoodCategoryを取得する
 		FoodCategory targetCategory = entityManager.find(FoodCategory.class, targetCategoryId);
 		return restaurantRepository.findByFoodCategory(targetCategory);

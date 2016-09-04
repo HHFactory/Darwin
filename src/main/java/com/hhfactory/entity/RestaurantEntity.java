@@ -26,87 +26,87 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "restaurants")
-public class RestaurantEntity extends AbstractEntityIdOnly implements Serializable{
+public class RestaurantEntity extends AbstractEntityIdOnly implements Serializable {
 	private static final long serialVersionUID = 1L;
 	/** ステータス */
-	@Column(nullable = false, columnDefinition = "VARCHAR(5) DEFAULT 'open' ")
+	@Column(nullable = false,columnDefinition = "VARCHAR(5) DEFAULT 'open' ")
 	private String status;
-	
+
 	/** カテゴリ */
 	@OneToOne
-	@JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false, insertable = true, updatable = false)
+	@JoinColumn(name = "category_id",referencedColumnName = "id",nullable = false,insertable = true,updatable = false)
 	private FoodCategory foodCategory;
-	
+
 	/** 店舗名 */
-	@Column(nullable = false, columnDefinition = "VARCHAR(20)")
+	@Column(nullable = false,columnDefinition = "VARCHAR(20)")
 	private String name;
-	
+
 	/** 郵便番号 */
-	@Column(nullable = false, columnDefinition = "VARCHAR(7)")
+	@Column(nullable = false,columnDefinition = "VARCHAR(7)")
 	private Integer postNum;
-	
+
 	/** 都道府県コード */
-	@Column(nullable = false, columnDefinition = "VARCHAR(5)")
+	@Column(nullable = false,columnDefinition = "VARCHAR(5)")
 	private String prefectureCode;
-	
+
 	/** 市区町村 */
-	@Column(nullable = false, columnDefinition = "VARCHAR(50) DEFAULT '' ")
+	@Column(nullable = false,columnDefinition = "VARCHAR(50) DEFAULT '' ")
 	private String city;
-	
+
 	/** 住所 */
-	@Column(nullable = false, columnDefinition = "VARCHAR(50) DEFAULT '' ")
+	@Column(nullable = false,columnDefinition = "VARCHAR(50) DEFAULT '' ")
 	private String address;
-	
+
 	/** ビル名・その他住所 */
-	@Column(nullable = false, columnDefinition = "VARCHAR(50) DEFAULT '' ")
+	@Column(nullable = false,columnDefinition = "VARCHAR(50) DEFAULT '' ")
 	private String building;
-	
+
 	/** 座標 */
-	@Column(nullable = false, columnDefinition = "GEOMETRY")
+	@Column(nullable = false,columnDefinition = "GEOMETRY")
 	private byte[] latLng;
-	
-	/** ランチタイムfrom */	
-	@Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT '' ")
+
+	/** ランチタイムfrom */
+	@Column(nullable = false,columnDefinition = "VARCHAR(10) DEFAULT '' ")
 	private String lunchTimeFrom;
-	
+
 	/** ランチタイムto */
-	@Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT '' ")
+	@Column(nullable = false,columnDefinition = "VARCHAR(10) DEFAULT '' ")
 	private String lunchTimeTo;
-	
+
 	/** ディナータイムfrom */
-	@Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT '' ")
+	@Column(nullable = false,columnDefinition = "VARCHAR(10) DEFAULT '' ")
 	private String dinnerTimeFrom;
-	
+
 	/** ディナータイムto */
-	@Column(nullable = false, columnDefinition = "VARCHAR(10) DEFAULT '' ")
+	@Column(nullable = false,columnDefinition = "VARCHAR(10) DEFAULT '' ")
 	private String dinnerTimeTo;
-	
+
 	/** 席数 */
-	@Column(nullable = false, columnDefinition = "VARCHAR(5)")
+	@Column(nullable = false,columnDefinition = "VARCHAR(5)")
 	private String seatCounts;
-	
+
 	/** 休日コード */
-	@Column(nullable = false, columnDefinition = "VARCHAR(5)")
+	@Column(nullable = false,columnDefinition = "VARCHAR(5)")
 	private String holidayCode;
-	
+
 	/** 喫煙タイプコード */
-	@Column(nullable = false, columnDefinition = "VARCHAR(5)")
+	@Column(nullable = false,columnDefinition = "VARCHAR(5)")
 	private String smokingTypeCode;
-	
+
 	/** wifi有無コード */
-	@Column(nullable = false, columnDefinition = "VARCHAR(5)")
+	@Column(nullable = false,columnDefinition = "VARCHAR(5)")
 	private String hasWifiCode;
-	
+
 	/** 画像リスト */
 	@OneToMany
-	@JoinColumn(name = "image_id", referencedColumnName = "id", insertable = false, updatable = false)
+	@JoinColumn(name = "image_id",referencedColumnName = "id",insertable = false,updatable = false)
 	private List<RestaurantImageEntity> images;
-	
+
 	/** コメントリスト */
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "restaurant")
 	private List<RestaurantCommentEntity> comments;
-	
+
 	/** メニューリスト */
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "restaurant")
 	private List<MenuEntity> menus;
 }

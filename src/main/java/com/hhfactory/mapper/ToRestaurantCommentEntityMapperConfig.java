@@ -15,10 +15,11 @@ public class ToRestaurantCommentEntityMapperConfig {
 
 	/**
 	 * RestaurantCommentDtoからRestaurantCommentEntityへのマッピング定義
+	 * 
 	 * @return properyMap
 	 */
 	public PropertyMap<RestaurantCommentDto, RestaurantCommentEntity> toRestaurantCommentEntityMap() {
-		return new PropertyMap<RestaurantCommentDto, RestaurantCommentEntity>() {			
+		return new PropertyMap<RestaurantCommentDto, RestaurantCommentEntity>() {
 			@Override
 			protected void configure() {
 				skip().setId(null);
@@ -26,5 +27,5 @@ public class ToRestaurantCommentEntityMapperConfig {
 			}
 		};
 	}
-			
+
 }

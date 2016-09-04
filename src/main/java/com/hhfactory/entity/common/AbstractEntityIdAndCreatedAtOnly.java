@@ -13,18 +13,21 @@ import javax.persistence.TemporalType;
 import lombok.Data;
 
 /**
- * 共通カラムクラス
- * （ID、登録日時）
+ * Entityの共通フィールドを定義した抽象クラス
+ * 
+ * EntityのフィールドにID、を設定する場合に、
+ * このクラスを継承すること。
+ * 
  */
 @Data
 @MappedSuperclass
-public class AbstractEntityIdAndCreatedAtOnly {
-	/** ID */
+abstract public class AbstractEntityIdAndCreatedAtOnly {
+	// ID
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	/** 登録日 */
+	// 登録日時
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Date createdAt;

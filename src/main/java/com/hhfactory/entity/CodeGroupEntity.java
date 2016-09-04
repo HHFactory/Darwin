@@ -23,17 +23,17 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "code_groups")
-public class CodeGroupEntity extends AbstractEntityIdOnly{
+public class CodeGroupEntity extends AbstractEntityIdOnly {
 	/** コードグループ名 */
 	@Column(nullable = false)
 	private String name;
-	
+
 	/** コードグループ英語名 */
 	@Column(nullable = false)
 	private String alias;
-	
+
 	/** コード値リスト */
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "code_group_id", referencedColumnName = "id")
+	@JoinColumn(name = "code_group_id",referencedColumnName = "id")
 	private List<CodeValueEntity> codeValues;
 }

@@ -7,6 +7,9 @@ import lombok.Data;
  *
  */
 @Data
-public class ResultMessages {
-	
+public class ApiResultErrorMessage {
+	private String code;
+	private String type;
+	private String message;
+	private String userMessage;
 }

@@ -16,38 +16,36 @@ import com.hhfactory.entity.common.AbstractEntityIdOnly;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * メニューEntity
  *
  */
 @Data
-@ToString
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name ="menus")
-public class MenuEntity extends AbstractEntityIdOnly implements Serializable{
+@Table(name = "menus")
+public class MenuEntity extends AbstractEntityIdOnly implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	/** メニュー名 */
-	@Column(nullable = false, columnDefinition = "VARCHAR(50)")
+	@Column(nullable = false,columnDefinition = "VARCHAR(50)")
 	private String name;
-	
+
 	/** 価格 */
-	@Column(nullable = false, columnDefinition = "int(5)")
+	@Column(nullable = false,columnDefinition = "int(5)")
 	private Integer price;
-		
+
 	/** メニュー画像リスト */
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "menu")
+	@OneToOne(fetch = FetchType.LAZY,mappedBy = "menu")
 	private MenuImageEntity image;
-	
+
 	/** メニューコメントリスト */
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "menu")
 	private List<MenuCommentEntity> comments;
-		
+
 	/** 対象レストランエンティティ */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name  = "restaurant_id", referencedColumnName = "id", insertable = true, nullable = false, updatable = false)
+	@JoinColumn(name = "restaurant_id",referencedColumnName = "id",insertable = true,nullable = false,updatable = false)
 	private RestaurantEntity restaurant;
 }

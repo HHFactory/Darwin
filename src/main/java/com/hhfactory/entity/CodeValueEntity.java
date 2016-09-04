@@ -18,15 +18,15 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "code_values")
-public class CodeValueEntity extends AbstractEntityIdOnly{
+public class CodeValueEntity extends AbstractEntityIdOnly {
 	/** コード値 */
 	@Column(nullable = false)
 	private Integer code;
-	
+
 	/** コード名 */
-	@Column(nullable = false)	
+	@Column(nullable = false)
 	private String name;
-	
+
 	/** コード英語名 */
 	@Column(nullable = false)
 	private String alias;

@@ -1,13 +1,12 @@
 package com.hhfactory.controller;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,19 +17,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hhfactory.dto.ResponseDto;
 import com.hhfactory.dto.RestaurantCommentDto;
 import com.hhfactory.dto.RestaurantDto;
-import com.hhfactory.dto.ResultDto;
+import com.hhfactory.dto.common.message.ApiResultErrorMessage;
 import com.hhfactory.entity.RestaurantCommentEntity;
 import com.hhfactory.entity.RestaurantEntity;
 import com.hhfactory.service.implement.RestaurantServiceImpl;
+import com.hhfactory.utils.ErrorMessageUtil;
 
 /**
  * レストラン情報の取得、登録を行うRestContoller 各メソッド内で、サービス処理結果をResultDtoに詰めてクライアントに返す。
  * クライアントへはJSON形式で返す
  * 
- * ResultDtoはbeanFactoryを用いて生成する サービスで取得したEntityはDTOにマッピングしてから、ResultDtoに詰めている。
+ * ResultDtoはbeanFactoryを用いて生成する サービスで取得したEntityはDTOにマッピングしてから、ResultDtoに詰める。
  * マッピングにはModelMapperを用いる
+ * 
+ * Entity取得メソッドで、Entityが取得できなかった場合はエラーメッセージを生成してクライアントに返す。
  */
 @RestController
 @RequestMapping(value = "/api/v1/restaurants")
@@ -40,7 +43,7 @@ public class RestaurantController {
 	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
-	private AutowireCapableBeanFactory beanFactory;
+	private ErrorMessageUtil messageUtil;
 
 	/**
 	 * 指定されたレストランIDからレストラン情報を1件取得する
@@ -50,16 +53,24 @@ public class RestaurantController {
 	 * 
 	 */
 	@RequestMapping(method = RequestMethod.GET,value = "/{restaurantId}")
-	public ResultDto findRestaurantById(@PathVariable Long restaurantId) {
+	public ResponseDto<RestaurantDto> findRestaurantById(@PathVariable Long restaurantId) {
+		// 引数のnullチェック
+		Objects.requireNonNull(restaurantId);
+				
+		ResponseDto<RestaurantDto> responseDto = new ResponseDto<>();
 		// RestaurantEntityをサービスから取得する
 		RestaurantEntity resultEntity = restaurantServiceImpl.findRestaurantById(restaurantId);
-		ResultDto resultDto = beanFactory.createBean(ResultDto.class);
+		// Entityを取得できた場合
 		if ( resultEntity != null ) {
-			// EntityからDTOにつめかえる
 			RestaurantDto restaurantDto = modelMapper.map(resultEntity, RestaurantDto.class);
-			resultDto.setResult(restaurantDto);
+			responseDto.setResult(restaurantDto);
 		}
-		return resultDto;
+		// Entityを取得できなかった場合
+		else {
+			ApiResultErrorMessage errorMessage = messageUtil.notFoundEntityById(restaurantId.toString());
+			responseDto.setErrorMessage(errorMessage);
+		}
+		return responseDto;
 	}
 
 	/**
@@ -70,12 +81,14 @@ public class RestaurantController {
 	 * 
 	 * @param entity[RestaurantDto]:登録するレストラン情報
 	 * @return HttpStatusを返す
-	 * @throws IOException
 	 * 
 	 */
 	@RequestMapping(method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,value = "/")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createRestaurant(@RequestBody RestaurantDto restaurantDto) throws IOException {
+	public void createRestaurant(@RequestBody RestaurantDto restaurantDto)  {
+		// 引数のnullチェック
+		Objects.requireNonNull(restaurantDto);
+		
 		// DTOからEntityにマッピングする
 		RestaurantEntity insertTargetEntity = modelMapper.map(restaurantDto, RestaurantEntity.class);
 		restaurantServiceImpl.createRestaurant(insertTargetEntity);
@@ -91,20 +104,30 @@ public class RestaurantController {
 	 * @return 取得した店舗情報リスト
 	 * 
 	 */
-	@RequestMapping(method = RequestMethod.GET,value = "")
-	public ResultDto findNearbyRestaurants(@RequestParam("lat") double lat,@RequestParam("lng") double lng) {
-		// ネイティブSQLを実行しEntityリストを取得する
-		List<RestaurantEntity> nearbyRestaurants = restaurantServiceImpl.findNearbyRestaurants(lat, lng);
-		ResultDto resultDto = beanFactory.createBean(ResultDto.class);
-		if ( CollectionUtils.isNotEmpty(nearbyRestaurants) ) {
-			// 取得したリストをDtoリストにマッピングする
-			List<RestaurantDto> restaurantDtos = nearbyRestaurants.stream()
-			        .map(resultEntity -> modelMapper.map(resultEntity, RestaurantDto.class))
-			        .collect(Collectors.toList());
-			resultDto.setResult(restaurantDtos);
-		}
-		return resultDto;
-	}
+	 @RequestMapping(method = RequestMethod.GET,value = "")
+	 public ResponseDto<List<RestaurantDto>> findNearbyRestaurants(@RequestParam("lat") double lat,@RequestParam("lng") double lng) {
+		 // 引数のnullチェック
+		 Objects.requireNonNull(lat);
+		 Objects.requireNonNull(lng);
+		 ResponseDto<List<RestaurantDto>> responseDto = new ResponseDto<>();
+		 
+		 // ネイティブSQLを実行しEntityリストを取得する
+		 List<RestaurantEntity> nearbyRestaurants = restaurantServiceImpl.findNearbyRestaurants(lat, lng);
+
+		 // 取得したリストをDtoリストにマッピングする		 
+		 if ( CollectionUtils.isNotEmpty(nearbyRestaurants) ) {
+			 List<RestaurantDto> restaurantDtos = nearbyRestaurants.stream()
+					 																										.map(resultEntity -> modelMapper.map(resultEntity, RestaurantDto.class))
+					 																										.collect(Collectors.toList());
+			 responseDto.setResult(restaurantDtos);
+		 } 
+		 // 対象店舗情報が取得できなかった場合
+		 else {
+				ApiResultErrorMessage errorMessage = messageUtil.notFoundNearByRestaurants();
+				responseDto.setErrorMessage(errorMessage);
+		 }
+		 return responseDto;
+	 }
 
 	/**
 	 * 指定されたカテゴリIDを持つ店舗情報リストを取得する
@@ -112,20 +135,30 @@ public class RestaurantController {
 	 * @param categoryId[Long]：対象カテゴリID
 	 * @return 店舗情報リスト
 	 */
-	@RequestMapping(method = RequestMethod.GET,value = "/categories/{categoryId}")
-	public ResultDto findRestaurantsByCategoryId(@PathVariable Long categoryId) {
-		// 対象のEntityリストを取得する
-		List<RestaurantEntity> resultEntities = restaurantServiceImpl.findRestaurantsByCategory(categoryId);
-		ResultDto resultDto = beanFactory.createBean(ResultDto.class);
-		// 実行結果が存在する場合、resultDtoに詰めて返す
-		if ( CollectionUtils.isNotEmpty(resultEntities) ) {
-			List<RestaurantDto> resultDtos = resultEntities.stream()
-			        .map(resultEntity -> modelMapper.map(resultEntity, RestaurantDto.class))
-			        .collect(Collectors.toList());
+	 @RequestMapping(method = RequestMethod.GET,value =
+	 "/categories/{categoryId}")
+	 public ResponseDto<List<RestaurantDto>> findRestaurantsByCategoryId(@PathVariable Long categoryId) {
+		 // 引数のnullチェック
+		 Objects.requireNonNull(categoryId);
+		 ResponseDto<List<RestaurantDto>> resultDto = new ResponseDto<>();
+		 
+		 // 対象のEntityリストを取得する
+		 List<RestaurantEntity> resultEntities = restaurantServiceImpl.findRestaurantsByCategory(categoryId);
+
+		 // 実行結果が存在する場合、resultDtoに詰めて返す
+		 if ( CollectionUtils.isNotEmpty(resultEntities) ) {
+			 List<RestaurantDto> resultDtos = resultEntities.stream().map(resultEntity -> modelMapper.map(resultEntity, RestaurantDto.class))
+					 																																										.collect(Collectors.toList());
 			resultDto.setResult(resultDtos);
-		}
-		return resultDto;
-	}
+		 }
+		 // 対象Entityなかった場合、エラーメッセージを生成する
+		 else {
+			 ApiResultErrorMessage errorMessage = messageUtil.notFoundEntityById(categoryId.toString());
+			 resultDto.setErrorMessage(errorMessage);
+		 }
+
+		 return resultDto;
+	 }
 
 	/**
 	 * 対象レストランへコメントを登録する
@@ -136,7 +169,7 @@ public class RestaurantController {
 	 */
 	@RequestMapping(method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE,value = "/{restaurantId}")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void commentOnRestaurant(@PathVariable Long restaurantId,@RequestBody RestaurantCommentDto commentDto) {
+	public void commentOnRestaurant(@PathVariable Long restaurantId, @RequestBody RestaurantCommentDto commentDto) {
 		// DtoからEntityに変換する
 		RestaurantCommentEntity commentEntity = modelMapper.map(commentDto, RestaurantCommentEntity.class);
 		restaurantServiceImpl.commentOnRestaurant(restaurantId, commentEntity);
