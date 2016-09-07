@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "favorite_restaurants")
+@SuppressWarnings("serial")
 public class FavoriteRestaurantEntity extends AbstractEntityIdAndCreatedAtOnly implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 }

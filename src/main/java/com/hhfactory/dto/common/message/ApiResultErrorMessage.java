@@ -8,8 +8,15 @@ import lombok.Data;
  */
 @Data
 public class ApiResultErrorMessage {
+	// エラーコード
 	private String code;
+	// エラータイプ
 	private String type;
+	// エラーメッセージ
 	private String message;
+	/**
+	 * クライアント用エラーメッセージ<br>
+	 * クライアントでそのまま表示すれば良い
+	 */
 	private String userMessage;
 }

@@ -1,7 +1,5 @@
 package geocoder;
 
-import java.io.IOException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoints;
@@ -38,14 +36,9 @@ public class GeocoderTest {
 	@Theory
 	@Test
 	public void getLocationTest(String arg) {
-		try {
-			LatLng location = geocoderService.getLatLngByAddress(arg);
-			System.out.println(location.getLat());
-			System.out.println(location.getLng());
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
+		LatLng location = geocoderService.getLatLngByAddress(arg);
+		System.out.println(location.getLat());
+		System.out.println(location.getLng());
 	}
 	
 }

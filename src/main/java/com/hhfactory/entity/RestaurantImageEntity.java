@@ -19,12 +19,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "restaurant_images")
+@SuppressWarnings("serial")
 public class RestaurantImageEntity extends AbstractEntityIdOnly implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 	/** 画像種別コード */
-	@Column(nullable = false,columnDefinition = "VARCHAR(10)")
-	private String imgCategoryCode;
+	@Column(nullable = false,columnDefinition = "int(1)")
+	private Integer imgCategoryCode;
 
 	/** 画像URL */
 	@Column(nullable = false)

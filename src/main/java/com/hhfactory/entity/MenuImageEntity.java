@@ -21,8 +21,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "menu_images")
+@SuppressWarnings("serial")
 public class MenuImageEntity extends AbstractEntityIdOnly implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 	/** 画像URL */
 	@Column(nullable = false)

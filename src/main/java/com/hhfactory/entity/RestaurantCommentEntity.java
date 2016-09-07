@@ -24,8 +24,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "restaurant_comments")
+@SuppressWarnings("serial")
 public class RestaurantCommentEntity extends AbstractEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 	/** コメント内容 */
 	@Column(nullable = false,columnDefinition = "VARCHAR(1000)")

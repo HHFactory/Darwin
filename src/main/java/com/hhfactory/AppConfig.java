@@ -52,7 +52,8 @@ public class AppConfig {
 	}
 
 	/**
-	 * GoogleGeocoderAPI用GeocoderRequestクラス 言語を日本語に設定済み
+	 * GoogleGeocoderAPI用GeocoderRequestクラス<br>
+	 * 言語を日本語に設定済み
 	 * 
 	 */
 	@Bean

@@ -13,18 +13,19 @@ import lombok.NonNull;
 public class ByteConverter {
 
 	/**
-	 * MYSQLのGeometry型の先頭9バイトを表すbyte配列
+	 * MYSQLのGeometry型の先頭9バイトを表すbyte配列<br>
 	 * 情報 経度・緯度をbyte配列に変換する際に、変換後byte配列の先頭に付与する
 	 * 
 	 */
 	private static final byte[] PREFIX_BYTES = { 0, 0, 0, 0, 0x01, 0x01, 0, 0, 0 };
 
 	/**
-	 * LatLng型をGeometory型に適応させたbyte配列に変換する
+	 * LatLng型をGeometory型に適応させたbyte配列に変換する<br>
 	 * Geometory型の仕様にあわせて、緯度、経度の順にbyte配列に格納させること。
 	 * 
 	 * 
-	 * @param targetLocation[LatLng]:経度緯度情報, notnull
+	 * @param targetLocation
+	 *            [LatLng]:経度緯度情報,notnull
 	 * @return Mysql Geometory型byte配列
 	 */
 	public static byte[] convertToGeometoryData(@NonNull LatLng targetLocation) {
@@ -43,9 +44,13 @@ public class ByteConverter {
 	/**
 	 * 引数で渡された経度・緯度をMYSQLのGeometry型のbyte配列に変換する
 	 * 
-	 * @param geometroyByteBuffer[ByteBuffer]:geometory型byteデータを格納するbytebuffer
-	 * @param doubleByteBuffer[ByteBuffer]:経度緯度を格納するbytebuffer
-	 * @param value[double]:double型に変換した経度緯度データ
+	 * @param geometroyByteBuffer
+	 *            [ByteBuffer]:geometory型byteデータを格納するbytebuffer
+	 * @param doubleByteBuffer
+	 *            [ByteBuffer]:経度緯度を格納するbytebuffer
+	 * @param value
+	 *            [double]:double型に変換した経度緯度データ
+	 * 
 	 */
 	private static void putReversedData(ByteBuffer geometoryByteBuffer, ByteBuffer doubleByteBuffer, double value) {
 		// doubleByteに引数の経度・緯度のデータを格納し、反転させてgeometoryByteに格納
@@ -59,12 +64,16 @@ public class ByteConverter {
 	/**
 	 * 指定された位置から7バイト分の配列を反転させて、double型にして返す
 	 * 
-	 * @param buffer[ByteBuffer]:経度緯度のbytebuffer
-	 * @param data[byte]:byte配列に変換した経度緯度情報
-	 * @param position:反転開始位置
-	 * @return byte配列反転後のdouble型データ
+	 * @param buffer
+	 *            [ByteBuffer]:経度緯度のbytebuffer
+	 * @param data
+	 *            [byte]:byte配列に変換した経度緯度情報
+	 * @param position
+	 *            [int]:反転開始位置
+	 * @return 配列反転後のdouble型データ
+	 * 
 	 */
-	public static double getReversedData(ByteBuffer buffer, byte[] data, int position) {
+	public static double getReversedData(@NonNull ByteBuffer buffer, @NonNull byte[] data, int position) {
 		buffer.position(0);
 		for ( int i = position + 7; i >= position; i-- ) {
 			buffer.put(data[i]);

@@ -20,8 +20,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "food_categories")
+@SuppressWarnings("serial")
 public class FoodCategory extends AbstractEntityIdOnly implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 	/** カテゴリ名 */
 	@Column(nullable = false,columnDefinition = "VARCHAR(20)")

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.hhfactory.entity.FoodCategory;
 import com.hhfactory.entity.RestaurantCommentEntity;
 import com.hhfactory.entity.RestaurantEntity;
 import com.hhfactory.repository.RestaurantCommentRepository;
@@ -39,12 +38,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 	protected EntityManager entityManager;
 
 	/**
-	 * 指定されたIDからレストラン情報を取得する
-	 * 対象のレストラン情報がなかった場合、EntityNotFoundExceptionを返す
+	 * 指定されたIDからレストラン情報を取得する<br>
+	 * 対象のレストラン情報がなかった場合、EntityNotFoundExceptionを返す<br>
 	 * 
-	 * @param restaurantId:取得対象ID
+	 * @param restaurantId
+	 *            [Long]:取得対象ID,notnull
 	 * @return 対象レストラン情報
-	 * @throws IllegalArgumentException（非チェック例外）
+	 * @throws IllegalArgumentException
+	 *             非チェック例外
 	 */
 	@Transactional(readOnly = true)
 	public RestaurantEntity findRestaurantById(@NonNull Long restaurantId) {
@@ -52,10 +53,11 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	/**
-	 * レストラン情報を登録する
-	 * 対象のEntityが既に登録されていた場合は、更新される
+	 * レストラン情報を登録する<br>
+	 * 対象のEntityが既に登録されていた場合は、更新される<br>
 	 * 
-	 * @param insertTarget:登録対象RestaurantEntity
+	 * @param insertTarget
+	 *            [RestaurantEntity]:登録対象RestaurantEntity
 	 * @return 登録結果RestaurantEntity
 	 * 
 	 */
@@ -76,8 +78,10 @@ public class RestaurantServiceImpl implements RestaurantService {
 	/**
 	 * レストランへのコメント登録処理
 	 * 
-	 * @param restaurantId[Long]:コメント対象レストランID
-	 * @param comment[RestaurantCommentEntity]:コメント内容
+	 * @param restaurantId
+	 *            [Long]:コメント対象レストランID
+	 * @param comment
+	 *            [RestaurantCommentEntity]:コメント内容
 	 * 
 	 */
 	public void commentOnRestaurant(@NonNull Long restaurantId, @NonNull RestaurantCommentEntity comment) {
@@ -92,26 +96,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 	/**
 	 * 現在地から近くの店舗情報を取得する
 	 * 
-	 * @param lat[double]:緯度
-	 * @param lng[double]:経度
+	 * @param lat
+	 *            [double]:緯度
+	 * @param lng
+	 *            [double]:経度
 	 * @return 取得結果店舗情報リスト
 	 * 
 	 */
-	public List<RestaurantEntity> findNearbyRestaurants( double lat, double lng) {
+	public List<RestaurantEntity> findNearbyRestaurants(double lat, double lng) {
 		return customRepository.findNearbyRestaurants(lat, lng);
 	}
-
-	/**
-	 * 指定したカテゴリIDを持つRestaurantEntityリストを取得する
-	 * 
-	 * @param targetCategoryId[Long]：対象カテゴリID
-	 * @return 店舗情報リスト
-	 * 
-	 */
-	public List<RestaurantEntity> findRestaurantsByCategory(@NonNull Long targetCategoryId) {
-		// 指定されたカテゴリIDからFoodCategoryを取得する
-		FoodCategory targetCategory = entityManager.find(FoodCategory.class, targetCategoryId);
-		return restaurantRepository.findByFoodCategory(targetCategory);
-	}
-
 }

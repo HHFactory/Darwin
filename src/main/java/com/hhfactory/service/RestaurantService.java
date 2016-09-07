@@ -24,7 +24,4 @@ public interface RestaurantService {
 
 	// レストランにコメントを登録する
 	public void commentOnRestaurant(Long restaurantId,RestaurantCommentEntity insertTargetEntity);
-
-	// カテゴリからレストラン情報を取得する
-	public List<RestaurantEntity> findRestaurantsByCategory(Long targetCategoryId);
 }

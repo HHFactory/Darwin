@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.hhfactory.entity.common.AbstractEntityIdOnly;
@@ -26,16 +25,11 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "restaurants")
+@SuppressWarnings("serial")
 public class RestaurantEntity extends AbstractEntityIdOnly implements Serializable {
-	private static final long serialVersionUID = 1L;
 	/** ステータス */
 	@Column(nullable = false,columnDefinition = "VARCHAR(5) DEFAULT 'open' ")
 	private String status;
-
-	/** カテゴリ */
-	@OneToOne
-	@JoinColumn(name = "category_id",referencedColumnName = "id",nullable = false,insertable = true,updatable = false)
-	private FoodCategory foodCategory;
 
 	/** 店舗名 */
 	@Column(nullable = false,columnDefinition = "VARCHAR(20)")
@@ -97,10 +91,15 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	@Column(nullable = false,columnDefinition = "VARCHAR(5)")
 	private String hasWifiCode;
 
-	/** 画像リスト */
+	/** 内観画像リスト */
 	@OneToMany
-	@JoinColumn(name = "image_id",referencedColumnName = "id",insertable = false,updatable = false)
-	private List<RestaurantImageEntity> images;
+	@JoinColumn(name = "inside_image_id", referencedColumnName = "id", insertable = false, updatable = false)
+	private List<RestaurantInsideImageEntity> insideImages;
+
+	/** 外観画像リスト */
+	@OneToMany
+	@JoinColumn(name = "outside_image_id", referencedColumnName = "id", insertable = false, updatable = false)
+	private List<RestaurantOutsideImageEntity> outsideImages;
 
 	/** コメントリスト */
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "restaurant")

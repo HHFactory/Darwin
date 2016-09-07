@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * spring AOPを使用して、メソッド実行前後でログ出力処理を挟む
+ * spring AOPを使用して、メソッド実行前後でログ出力処理を行うクラス<br>
  * 
  *
  */
@@ -18,10 +18,10 @@ public class LogInterceptor {
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
-	 * serviceパッケージ以下のメソッド実行前後でログを出力する
+	 * serviceパッケージ以下のメソッド実行前後でログを出力する<br>
 	 * 
-	 * 実行前ログとして、メソッド名、クラス名を出力
-	 * 実行後ログとして、メソッドの戻り値を出力
+	 * 実行前ログとして、メソッド名、クラス名を出力<br>
+	 * 実行後ログとして、メソッドの戻り値を出力<br>
 	 * 
 	 * @param joinPoint
 	 * @return

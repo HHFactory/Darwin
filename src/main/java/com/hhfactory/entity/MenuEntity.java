@@ -25,12 +25,16 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "menus")
+@SuppressWarnings("serial")
 public class MenuEntity extends AbstractEntityIdOnly implements Serializable {
-	private static final long serialVersionUID = 1L;
 
 	/** メニュー名 */
 	@Column(nullable = false,columnDefinition = "VARCHAR(50)")
 	private String name;
+	
+	/** 料理タイプ */
+	@Column(nullable = false, columnDefinition = "int(2)")
+	private Integer foodType;
 
 	/** 価格 */
 	@Column(nullable = false,columnDefinition = "int(5)")
