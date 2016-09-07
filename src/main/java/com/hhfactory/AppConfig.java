@@ -26,10 +26,9 @@ public class AppConfig {
 	private ToMenuDtoMapperConfig toMenuDtoMapperConfig;
 	@Autowired
 	private ToMenuEntityMapperConfig toMenuEntityMapperConfig;
-	
+
 	/**
-	 * EntityからDtoにマッピングするクラス
-	 * 各controllerでautowiredして使う想定
+	 * EntityからDtoにマッピングするクラス 各controllerでautowiredして使う想定
 	 * 
 	 */
 	@Bean
@@ -42,18 +41,18 @@ public class AppConfig {
 		mapper.addMappings(toMenuEntityMapperConfig.toMenuEntityPropertyMap());
 		return mapper;
 	}
-	
+
 	/**
 	 * GoogleGeocoderAPI用Geocoderクラス
 	 * 
 	 */
 	@Bean
-	Geocoder geoCoder(){
+	Geocoder geoCoder() {
 		return new Geocoder();
 	}
-	
+
 	/**
-	 * GoogleGeocoderAPI用GeocoderRequestクラス
+	 * GoogleGeocoderAPI用GeocoderRequestクラス<br>
 	 * 言語を日本語に設定済み
 	 * 
 	 */
@@ -63,5 +62,5 @@ public class AppConfig {
 		geocoderRequest.setLanguage("ja");
 		return geocoderRequest;
 	}
-	
+
 }

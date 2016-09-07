@@ -15,30 +15,28 @@ import com.hhfactory.entity.common.AbstractEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * レストランコメントEntity
  *
  */
 @Data
-@ToString
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "restaurant_comments")
-public class RestaurantCommentEntity extends AbstractEntity implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+@SuppressWarnings("serial")
+public class RestaurantCommentEntity extends AbstractEntity implements Serializable {
+
 	/** コメント内容 */
-	@Column(nullable = false, columnDefinition = "VARCHAR(1000)")
+	@Column(nullable = false,columnDefinition = "VARCHAR(1000)")
 	private String comment;
 
 	/** コメント画像リスト */
 	@OneToMany
-	private List<RestaurantImageEntity> images;	
-	
+	private List<RestaurantImageEntity> images;
+
 	/** コメント対象レストランエンティティ */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "restaurant_id", referencedColumnName = "id",  insertable = true, updatable = false, nullable = false)
+	@JoinColumn(name = "restaurant_id",referencedColumnName = "id",insertable = true,updatable = false,nullable = false)
 	private RestaurantEntity restaurant;
 }

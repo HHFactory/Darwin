@@ -4,21 +4,17 @@ import java.util.List;
 
 import org.springframework.data.geo.Point;
 
-import com.hhfactory.entity.FoodCategory;
-
 import lombok.Data;
-import lombok.ToString;
 
 /**
  * レストランEntity返却用DTO
  *
  */
 @Data
-@ToString
 public class RestaurantDto {
 	private Long restaurantId;
-	private FoodCategory foodCategory;
 	private String name;
+	private String status;
 	private String postNum;
 	private String prefecture;
 	private String city;
@@ -33,7 +29,8 @@ public class RestaurantDto {
 	private String seatCounts;
 	private String smokingType;
 	private String hasWifiType;
-	private List<RestaurantImageDto> images;
+	private List<String> insideImageUrls;
+	private List<String> outsideImageUrls;
 	private List<RestaurantCommentDto> comments;
 	private List<MenuDto> menus; 
 }

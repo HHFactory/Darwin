@@ -21,8 +21,7 @@ import lombok.NonNull;
 public class ToMenuEntityMapperConfig {
 	@Autowired
 	private RestaurantServiceImpl restaurantServiceImpl;
-	
-	
+
 	/**
 	 * 
 	 * @return
@@ -36,8 +35,7 @@ public class ToMenuEntityMapperConfig {
 			}
 		};
 	}
-	
-	
+
 	/**
 	 * 
 	 */
@@ -47,8 +45,5 @@ public class ToMenuEntityMapperConfig {
 			return restaurantServiceImpl.findRestaurantById(source.getRestaurantId());
 		}
 	};
-	
-	
-	
-	
+
 }

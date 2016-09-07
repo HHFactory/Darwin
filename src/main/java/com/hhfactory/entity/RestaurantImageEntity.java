@@ -10,26 +10,24 @@ import com.hhfactory.entity.common.AbstractEntityIdOnly;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 /**
  * レストラン画像Entity
  *
  */
 @Data
-@ToString
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "restaurant_images")
-public class RestaurantImageEntity extends AbstractEntityIdOnly implements Serializable{
-	private static final long serialVersionUID = 1L;
+@SuppressWarnings("serial")
+public class RestaurantImageEntity extends AbstractEntityIdOnly implements Serializable {
 
 	/** 画像種別コード */
-	@Column(nullable = false, columnDefinition = "VARCHAR(10)")
-	private String imgCategoryCode;
-	
+	@Column(nullable = false,columnDefinition = "int(1)")
+	private Integer imgCategoryCode;
+
 	/** 画像URL */
 	@Column(nullable = false)
 	private String imgUrl;
-			
+
 }

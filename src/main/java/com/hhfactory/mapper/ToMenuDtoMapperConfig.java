@@ -19,7 +19,7 @@ import com.hhfactory.entity.MenuEntity;
  */
 @Component
 public class ToMenuDtoMapperConfig {
-	
+
 	/**
 	 * 
 	 * @return
@@ -28,24 +28,25 @@ public class ToMenuDtoMapperConfig {
 		return new PropertyMap<MenuEntity, MenuDto>() {
 			@Override
 			protected void configure() {
-				map().setImageUrl( source.getImage().getImgUrl() );
+				map().setImageUrl(source.getImage().getImgUrl());
 				map().setRestaurantId(source.getRestaurant().getId());
 				using(commentIdListConverter).map(source).setMenuCommentIdList(null);
 			}
 		};
 	}
-	
+
 	/**
 	 * 
 	 */
-	private Converter<MenuEntity, List<Long>> commentIdListConverter  = new AbstractConverter<MenuEntity, List<Long>>() {
+	private Converter<MenuEntity, List<Long>> commentIdListConverter = new AbstractConverter<MenuEntity, List<Long>>() {
 		@Override
 		protected List<Long> convert(MenuEntity source) {
 			if ( CollectionUtils.isNotEmpty(source.getComments()) ) {
-				return source.getComments().stream().map( menuComment -> menuComment.getId() ).collect(Collectors.toList());
+				return source.getComments().stream().map(menuComment -> menuComment.getId())
+	                    .collect(Collectors.toList());
 			}
 			return null;
 		}
 	};
-	
+
 }

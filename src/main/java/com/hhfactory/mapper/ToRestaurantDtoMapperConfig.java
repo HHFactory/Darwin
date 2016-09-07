@@ -17,10 +17,10 @@ import com.hhfactory.entity.RestaurantEntity;
  */
 @Component
 public class ToRestaurantDtoMapperConfig {
-	
+
 	/*
-	 * RestaurantEntityからRestaurantDtoへのマッピング定義
-	 * (ModelMapperで自動マッピングできないものを定義)
+	 * RestaurantEntityからRestaurantDtoへのマッピング定義<br>
+	 * (ModelMapperで自動マッピングできないものを定義)<br>
 	 * 
 	 */
 	public PropertyMap<RestaurantEntity, RestaurantDto> restaurantEntityToDtoMap() {
@@ -28,20 +28,20 @@ public class ToRestaurantDtoMapperConfig {
 			@Override
 			protected void configure() {
 				using(latLngConverter).map(source).setLatLng(null);
-				map().setHoliday(source.getHolidayCode());// TODO:コード定義を正しく
-				map().setSmokingType(source.getSmokingTypeCode());// TODO:コード定義を正しく
+				map().setHoliday(source.getHolidayCode());
+				map().setSmokingType(source.getSmokingTypeCode());
 			}
 		};
 	}
-		
+
 	/**
-	 * RestaurantEntityの経度緯度をPointクラスに変換するconverter
+	 * RestaurantEntityの経度緯度をPointクラスに変換するconverter<br>
 	 * 
 	 */
-	private Converter<RestaurantEntity, Point> latLngConverter =  new AbstractConverter<RestaurantEntity, Point>() {
+	private Converter<RestaurantEntity, Point> latLngConverter = new AbstractConverter<RestaurantEntity, Point>() {
 		@Override
 		protected Point convert(RestaurantEntity source) {
-			if( source != null ){
+			if ( source != null ) {
 				// 経度・緯度情報を格納するために8バイト確保する
 				ByteBuffer buffer = ByteBuffer.allocate(8);
 				// 緯度をdouble型に変換する
@@ -53,5 +53,5 @@ public class ToRestaurantDtoMapperConfig {
 			return null;
 		}
 	};
-		
+
 }

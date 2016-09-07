@@ -8,13 +8,15 @@ import javax.persistence.MappedSuperclass;
 import lombok.Data;
 
 /** 
- * 共通カラムクラス
- * （ID)
+ * Entityの共通フィールドを定義した抽象クラス
+ * 
+ * EntityのフィールドにIDを設定する場合に、
+ * このクラスを継承すること。
  */
 @Data
 @MappedSuperclass
-public class AbstractEntityIdOnly {
-	/** ID */
+abstract public class AbstractEntityIdOnly {
+	// ID
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

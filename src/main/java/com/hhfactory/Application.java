@@ -7,7 +7,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@PropertySource({"classpath:application.properties"})
+@PropertySource({ "classpath:application.properties" })
 public class Application {
 
 	public static void main(String[] args) {
