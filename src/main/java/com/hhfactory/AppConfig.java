@@ -8,11 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import com.google.code.geocoder.Geocoder;
 import com.google.code.geocoder.GeocoderRequestBuilder;
 import com.google.code.geocoder.model.GeocoderRequest;
-import com.hhfactory.mapper.ToRestaurantEntityMapperConfig;
 import com.hhfactory.mapper.ToMenuDtoMapperConfig;
 import com.hhfactory.mapper.ToMenuEntityMapperConfig;
 import com.hhfactory.mapper.ToRestaurantCommentEntityMapperConfig;
 import com.hhfactory.mapper.ToRestaurantDtoMapperConfig;
+import com.hhfactory.mapper.ToRestaurantEntityMapperConfig;
 
 @Configuration
 public class AppConfig {
@@ -26,7 +26,7 @@ public class AppConfig {
 	private ToMenuDtoMapperConfig toMenuDtoMapperConfig;
 	@Autowired
 	private ToMenuEntityMapperConfig toMenuEntityMapperConfig;
-	
+
 	/**
 	 * EntityからDtoにマッピングするクラス
 	 * 各controllerでautowiredして使う想定
@@ -42,16 +42,16 @@ public class AppConfig {
 		mapper.addMappings(toMenuEntityMapperConfig.toMenuEntityPropertyMap());
 		return mapper;
 	}
-	
+
 	/**
 	 * GoogleGeocoderAPI用Geocoderクラス
 	 * 
 	 */
 	@Bean
-	Geocoder geoCoder(){
+	Geocoder geoCoder() {
 		return new Geocoder();
 	}
-	
+
 	/**
 	 * GoogleGeocoderAPI用GeocoderRequestクラス
 	 * 言語を日本語に設定済み
@@ -63,5 +63,4 @@ public class AppConfig {
 		geocoderRequest.setLanguage("ja");
 		return geocoderRequest;
 	}
-	
 }
