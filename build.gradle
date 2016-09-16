@@ -57,6 +57,7 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.assertj:assertj-core')
 	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.security:spring-security-core:4.0.1.RELEASE')
 }
 
 mainClassName = 'com.hhfactory.Application'
