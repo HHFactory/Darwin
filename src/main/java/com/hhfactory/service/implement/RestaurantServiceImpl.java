@@ -61,8 +61,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 	 * @return 登録結果RestaurantEntity
 	 * 
 	 */
-	public RestaurantEntity createRestaurant(@NonNull RestaurantEntity insertTarget) {
-		return restaurantRepository.save(insertTarget);
+	public void createRestaurant(@NonNull RestaurantEntity insertTarget) {
+		restaurantRepository.save(insertTarget);
 	}
 
 	/**

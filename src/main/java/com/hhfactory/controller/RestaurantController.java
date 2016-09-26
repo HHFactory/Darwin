@@ -80,6 +80,7 @@ public class RestaurantController {
 	 * 
 	 * 登録済み店舗か判定し、登録済みの場合は登録処理を行わない その際は、登録済みであるメッセージのみをクライアントに返す<br>
 	 * クライアントからはJSON形式でデータをもらう サービス処理のため、DTOからEntityにマッピングする<br>
+	 * 画像リストなど、RestaurantEntityと親子関係にあるデータの登録は行わない<br>
 	 * 
 	 * @param entity
 	 *            [RestaurantDto]:登録するレストラン情報
@@ -96,7 +97,7 @@ public class RestaurantController {
 		RestaurantEntity insertTargetEntity = modelMapper.map(restaurantDto, RestaurantEntity.class);
 		restaurantServiceImpl.createRestaurant(insertTargetEntity);
 	}
-
+	
 	/**
 	 * 指定された緯度経度から1km以内の店舗情報を複数件取得する<br>
 	 * 

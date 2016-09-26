@@ -17,7 +17,7 @@ public interface RestaurantService {
 	public List<RestaurantEntity> findNearbyRestaurants(double lat,double lng);
 
 	// レストラン情報を登録する
-	public RestaurantEntity createRestaurant(RestaurantEntity insertTargetEntity);
+	public void createRestaurant(RestaurantEntity insertTargetEntity );
 
 	// レストラン情報を削除する
 	public void deleteRestaurant(Long restaurantId);
