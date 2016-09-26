@@ -50,8 +50,10 @@ dependencies {
 	compile('mysql:mysql-connector-java')
 	compile('org.modelmapper:modelmapper:0.7.5')
 	compile('commons-collections:commons-collections')
+	compile('org.apache.commons:commons-lang3:3.0')
 	compile('com.vividsolutions:jts:1.13')
 	compile('com.google.code.geocoder-java:geocoder-java:0.16')
+	compile('joda-time:joda-time:2.3')
 	
 	provided('org.projectlombok:lombok:1.16.6')
 	
