@@ -22,8 +22,6 @@ public class ToRestaurantCommentEntityMapperConfig {
 		return new PropertyMap<RestaurantCommentDto, RestaurantCommentEntity>() {
 			@Override
 			protected void configure() {
-				skip().setId(null);
-				skip().setImages(null);// FIXME:暫定対応
 			}
 		};
 	}

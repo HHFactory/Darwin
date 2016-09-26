@@ -28,7 +28,6 @@ public class ToMenuDtoMapperConfig {
 		return new PropertyMap<MenuEntity, MenuDto>() {
 			@Override
 			protected void configure() {
-				map().setImageUrl(source.getImage().getImgUrl());
 				map().setRestaurantId(source.getRestaurant().getId());
 				using(commentIdListConverter).map(source).setMenuCommentIdList(null);
 			}

@@ -1,7 +1,11 @@
 package com.hhfactory.mapper;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.PropertyMap;
@@ -10,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.hhfactory.dto.RestaurantDto;
 import com.hhfactory.entity.RestaurantEntity;
+import com.hhfactory.entity.RestaurantInsideImageEntity;
 
 /**
  * RestaurantEntityからRestaurantDtoへのマッピング定義クラス
@@ -28,6 +33,7 @@ public class ToRestaurantDtoMapperConfig {
 			@Override
 			protected void configure() {
 				using(latLngConverter).map(source).setLatLng(null);
+				using(urlListConverter).map(source).setInsideImageUrls(null);
 				map().setHoliday(source.getHolidayCode());
 				map().setSmokingType(source.getSmokingTypeCode());
 			}
@@ -52,6 +58,22 @@ public class ToRestaurantDtoMapperConfig {
 			}
 			return null;
 		}
+	};
+	
+	private Converter<RestaurantEntity, List<String>> urlListConverter = new AbstractConverter<RestaurantEntity, List<String>>() {
+
+		@Override
+		protected List<String> convert(RestaurantEntity source) {
+			if ( CollectionUtils.isEmpty(source.getInsideImages()) ) {
+				return Collections.emptyList();
+			}
+			List<String> urlList = new ArrayList<>();
+			for ( RestaurantInsideImageEntity entity : source.getInsideImages() ) {
+				urlList.add(entity.getImgUrl());
+			}
+			return urlList;
+		}
+		
 	};
 
 }
