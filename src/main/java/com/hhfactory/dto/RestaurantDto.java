@@ -15,7 +15,6 @@ public class RestaurantDto {
 	private Long restaurantId;
 	private String name;
 	private String status;
-	private String postNum;
 	private String prefecture;
 	private String city;
 	private String address;	
@@ -28,7 +27,10 @@ public class RestaurantDto {
 	private String holiday;
 	private String seatCounts;
 	private String smokingType;
-	private String hasWifiType;
+	private String foreingMenuType;
+	private boolean hasWifi;
+	private boolean isCreditUse;
+	private List<String> creditCartList;
 	private List<String> insideImageUrls;
 	private List<String> outsideImageUrls;
 	private List<RestaurantCommentDto> comments;

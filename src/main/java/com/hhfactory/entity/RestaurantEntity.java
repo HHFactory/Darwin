@@ -1,12 +1,12 @@
 package com.hhfactory.entity;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -21,27 +21,23 @@ import lombok.ToString;
  *
  */
 @Data
-@ToString(exclude = "menus")
+@ToString(exclude = {"insideImages", "outsideImages", "comments", "menus",} )
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "restaurants")
 @SuppressWarnings("serial")
 public class RestaurantEntity extends AbstractEntityIdOnly implements Serializable {
 	/** ステータス */
-	@Column(nullable = false,columnDefinition = "VARCHAR(5) DEFAULT 'open' ")
+	@Column(nullable = false,columnDefinition = "VARCHAR(5) DEFAULT 'valid' ")
 	private String status;
 
 	/** 店舗名 */
 	@Column(nullable = false,columnDefinition = "VARCHAR(20)")
 	private String name;
 
-	/** 郵便番号 */
-	@Column(nullable = false,columnDefinition = "VARCHAR(7)")
-	private Integer postNum;
-
-	/** 都道府県コード */
+	/** 都道府県 */
 	@Column(nullable = false,columnDefinition = "VARCHAR(5)")
-	private String prefectureCode;
+	private String prefecture;
 
 	/** 市区町村 */
 	@Column(nullable = false,columnDefinition = "VARCHAR(50) DEFAULT '' ")
@@ -60,20 +56,20 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	private byte[] latLng;
 
 	/** ランチタイムfrom */
-	@Column(nullable = false,columnDefinition = "VARCHAR(10) DEFAULT '' ")
-	private String lunchTimeFrom;
+	@Column(columnDefinition = "TIME")
+	private Time lunchTimeFrom;
 
 	/** ランチタイムto */
-	@Column(nullable = false,columnDefinition = "VARCHAR(10) DEFAULT '' ")
-	private String lunchTimeTo;
+	@Column(columnDefinition = "TIME ")
+	private Time lunchTimeTo;
 
 	/** ディナータイムfrom */
-	@Column(nullable = false,columnDefinition = "VARCHAR(10) DEFAULT '' ")
-	private String dinnerTimeFrom;
+	@Column(columnDefinition = "TIME")
+	private Time dinnerTimeFrom;
 
 	/** ディナータイムto */
-	@Column(nullable = false,columnDefinition = "VARCHAR(10) DEFAULT '' ")
-	private String dinnerTimeTo;
+	@Column(columnDefinition = "TIME")
+	private Time dinnerTimeTo;
 
 	/** 席数 */
 	@Column(nullable = false,columnDefinition = "VARCHAR(5)")
@@ -87,18 +83,28 @@ public class RestaurantEntity extends AbstractEntityIdOnly implements Serializab
 	@Column(nullable = false,columnDefinition = "VARCHAR(5)")
 	private String smokingTypeCode;
 
+//	/** 外国語メニュータイプ */
+//	@Column(nullable = false,columnDefinition = "VARCHAR(5)")
+//	private String foreignMenuType;
+
 	/** wifi有無コード */
-	@Column(nullable = false,columnDefinition = "VARCHAR(5)")
-	private String hasWifiCode;
+	@Column(nullable = false,columnDefinition = "BIT(1)")
+	private boolean hasWifi;
+
+	/** クレジット決済可否フラグ */
+	@Column(nullable = false,columnDefinition = "BIT(1)")
+	private boolean isCreaditUse;
+
+//	/** 利用可能クレジットリスト */
+//	@ElementCollection
+//	private List<String> creditCardList;
 
 	/** 内観画像リスト */
-	@OneToMany
-	@JoinColumn(name = "inside_image_id", referencedColumnName = "id", insertable = false, updatable = false)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")	
 	private List<RestaurantInsideImageEntity> insideImages;
 
 	/** 外観画像リスト */
-	@OneToMany
-	@JoinColumn(name = "outside_image_id", referencedColumnName = "id", insertable = false, updatable = false)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
 	private List<RestaurantOutsideImageEntity> outsideImages;
 
 	/** コメントリスト */

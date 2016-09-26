@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -29,7 +30,7 @@ public class MenuImageEntity extends AbstractEntityIdOnly implements Serializabl
 	private String imgUrl;
 
 	/** 対象メニューエンティティ */
-	@ManyToOne
-	@JoinColumn(name = "menu_id",referencedColumnName = "id",nullable = false,insertable = true,updatable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn( name = "menu_id", referencedColumnName = "id", insertable = false, updatable = false, nullable = false)
 	private MenuEntity menu;
 }
