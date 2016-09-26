@@ -41,8 +41,8 @@ public class RestaurantCustomRepository {
 					+ ") * 111000"
 				+ ") AS len FROM Restaurants group by id having len <= 1000 "
 				+ "order by len"
-				+ "limit 20"
-				, RestaurantEntity.class);
+				, RestaurantEntity.class)
+				.setMaxResults(20);
 		return query.getResultList();
 	}
 }
