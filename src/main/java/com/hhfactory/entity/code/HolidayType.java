@@ -1,15 +1,15 @@
 package com.hhfactory.entity.code;
 
 public enum HolidayType implements Encodable<String> {
-	SUNDAY("1", "日曜定休"),
-	MONDAY("", "月曜定休"),
-	TUESDAY("", "火曜定休"),
-	WEDNESDAY("", "水曜定休"),
-	THURSDAY("", "木曜定休"),
-	FRIDAY("", "金曜定休"),
-	SATURDAY("", "土曜定休"),
-	PUBLIC_HOLIDAY("", "祝日定休"),
-	ALL_HOLIDAY("", "土日祝定休");
+	SUNDAY("01", "日曜定休"),
+	MONDAY("02", "月曜定休"),
+	TUESDAY("03", "火曜定休"),
+	WEDNESDAY("04", "水曜定休"),
+	THURSDAY("05", "木曜定休"),
+	FRIDAY("06", "金曜定休"),
+	SATURDAY("07", "土曜定休"),
+	PUBLIC_HOLIDAY("08", "祝日定休"),
+	ALL_HOLIDAY("09", "土日祝定休");
 
 	private final String code;
 	private final String name;

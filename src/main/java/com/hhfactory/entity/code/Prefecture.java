@@ -1,7 +1,7 @@
 package com.hhfactory.entity.code;
 
 public enum Prefecture implements Encodable<String>{
-	HOKKAIDO("1", "北海道")
+	HOKKAIDO("01", "北海道")
 	;
 
 	private final String code;

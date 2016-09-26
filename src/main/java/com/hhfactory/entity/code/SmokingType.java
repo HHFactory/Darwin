@@ -1,9 +1,9 @@
 package com.hhfactory.entity.code;
 
 public enum SmokingType implements Encodable<String> {
-	OK("1", "全席喫煙可"),
-	FREE("2", "全席禁煙"),
-	SEPARATE("3", "分煙");
+	OK("01", "全席喫煙可"),
+	FREE("02", "全席禁煙"),
+	SEPARATE("03", "分煙");
 
 	private final String code;
 	private final String name;
